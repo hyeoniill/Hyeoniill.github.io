@@ -7,7 +7,7 @@ date: 2026-02-28 17:00:00 +0900
 last_modified_at: 2026-03-05
 ---
 
-![passed](/assets/img/post_image/2026-03-04/passed.png)
+![passed](/assets/img/post_image/2026-02-28/passed.png)
 
 오늘은 KB IT's Your Life 7기 합격 후기를 작성하려고 합니다.  
 인스타그램에서 부트캠프 광고를 보고 처음 알게 되었는데,  
@@ -46,14 +46,14 @@ last_modified_at: 2026-03-05
 시간 분배만 잘 한다면 평소에 코딩 테스트를 준비하지 않으셨더라도 부담 없이 도전해보실 수 있을 것 같아요.  
 
 테스트 결과는 당일 저녁에 바로 문자로 알려주셨습니다.  
-![test_pass](/assets/img/post_image/2026-03-04/test_pass_message.png)
+![test_pass](/assets/img/post_image/2026-02-28/test_pass_message.png)
 
 <br>
 
 ### 면접
 ---
 
-![정문](/assets/img/post_image/2026-03-04/정문.jpeg)
+![정문](/assets/img/post_image/2026-02-28/정문.jpeg)
 - 면접 일시: 1월 29일(목)
 - 면접 장소: KB 국민은행 세종대 (어린이대공원역 5번 출구)  
 - 면접 복장: 대부분 정장을 입고 오셨습니다.  
@@ -70,7 +70,7 @@ last_modified_at: 2026-03-05
 
 면접 결과는 일주일 안에 문자로 알려주셨습니다.  
 
-![final](/assets/img/post_image/2026-03-04/final_pass.png)
+![final](/assets/img/post_image/2026-02-28/final_pass.png)
 
 <br>
 

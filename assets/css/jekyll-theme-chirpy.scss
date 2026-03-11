@@ -8,3 +8,148 @@
 ';
 
 /* append your custom style below */
+
+/* ---------- Custom Theme Overrides (dev-friendly) ---------- */
+
+/* Typography */
+body {
+  font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont,
+    'Apple SD Gothic Neo', 'Noto Sans KR', 'Segoe UI', Roboto, Arial, sans-serif;
+  letter-spacing: -0.01em;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: inherit;
+  letter-spacing: -0.02em;
+}
+
+.content {
+  font-size: 1.06rem;
+  line-height: 1.85;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+  font-variant-ligatures: none;
+}
+
+/* Layout: slightly narrower + readable */
+@media (min-width: 992px) {
+  main[aria-label='Main Content'] {
+    max-width: 860px;
+  }
+}
+
+/* Colors: neutral gray base + subtle accent */
+html {
+  /* default accent, override per mode below if needed */
+  --accent: #9ca3af; /* gray-400 */
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  html:not([data-mode]),
+  html[data-mode='light'] {
+    /* Dark theme: slightly softened dark gray background */
+    --main-bg: #020617; /* slate-950 */
+    --card-bg: #020617; /* same tone for seamless blocks */
+    --main-border-color: #1f2937; /* subtle border */
+    --text-color: #f9fafb; /* almost white text */
+    --text-muted-color: #d1d5db; /* light gray for better readability */
+    --heading-color: #e5e7eb; /* gray-200 */
+    --label-color: #d1d5db; /* match muted text */
+    --blockquote-text-color: #e5e7eb; /* brighten Q&A 스타일 인용문 */
+    --prompt-text-color: #e5e7eb; /* brighten custom prompt boxes */
+
+    /* Markdown tables */
+    --tb-odd-bg: #020617; /* 짝/홀 구분 없이 어두운 회색 */
+    --tb-even-bg: #020617;
+    --tb-border-color: #1f2937; /* 테이블 구분선만 살짝 보이게 */
+
+    /* Categories (/categories) */
+    --categories-border: #1f2937;
+    --categories-hover-bg: #020617;
+    --categories-icon-hover-color: #e5e7eb;
+
+    /* Archives (/archives) timeline */
+    --timeline-color: #1f2937;
+    --timeline-node-bg: #4b5563;
+    --timeline-year-dot-color: #4b5563;
+
+    /* Sidebar / topbar */
+    --sidebar-bg: #020617; /* near-black */
+    --sidebar-border-color: transparent;
+    --sidebar-muted-color: #6b7280;
+    --sidebar-active-color: #f9fafb;
+    --sidebar-btn-bg: #111827;
+    --sidebar-btn-color: #e5e7eb;
+    --sidebar-hover-bg: rgba(148, 163, 184, 0.2);
+    --topbar-bg: rgba(15, 23, 42, 0.9);
+    --topbar-text-color: #e5e7eb;
+    --search-border-color: rgba(148, 163, 184, 0.5);
+    --search-icon-color: #9ca3af; /* gray-400 */
+    --input-focus-border-color: rgba(148, 163, 184, 0.9);
+
+    /* Accent (links/TOC) */
+    --accent: #60a5fa; /* blue-400 */
+    --link-color: var(--accent);
+    --toc-highlight: var(--accent);
+    --btn-share-hover-color: var(--accent);
+    --checkbox-checked-color: var(--accent);
+
+    /* Code blocks */
+    --highlight-bg-color: #111827; /* gray-900 */
+    --code-color: #e5e7eb; /* gray-200 */
+    --highlighter-rouge-color: #e5e7eb;
+    --highlight-lineno-color: rgba(229, 231, 235, 0.35);
+    --code-header-text-color: rgba(229, 231, 235, 0.6);
+    --code-header-muted-color: rgba(229, 231, 235, 0.12);
+    --code-header-icon-color: rgba(229, 231, 235, 0.6);
+  }
+}
+
+/* Ensure inline code is readable in both modes */
+.content code:not(.language-plaintext):not([class*='language-']) {
+  padding: 0.15em 0.35em;
+  border-radius: 0.35rem;
+}
+
+/* Code blocks (``` fenced) background: use dark theme variable instead of light default */
+.highlight,
+.highlight .w {
+  background-color: var(--highlight-bg-color) !important;
+}
+
+/* Categories & Archives cards: dark background instead of white strips */
+.categories .card,
+#archives .list-group-item,
+#archives .card {
+  background-color: #020617;
+  border-color: #1f2937;
+  box-shadow: none;
+}
+
+.categories .card a,
+#archives .list-group-item a {
+  color: #e5e7eb;
+}
+
+/* Headings anchor hover: clearer */
+.content h2:hover > a,
+.content h3:hover > a,
+.content h4:hover > a {
+  color: var(--link-color);
+}
+
+/* Remove divider line between sidebar and main */
+#sidebar {
+  border-right: 0 !important;
+}

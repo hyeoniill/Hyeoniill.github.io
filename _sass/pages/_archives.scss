@@ -69,14 +69,15 @@
       @extend %text-ellipsis;
 
       &:nth-child(odd) {
-        background-color: var(--main-bg, #ffffff);
+        /* 다크 테마: 기존처럼 약한 스트립 효과를 주되 어두운 톤 유지 */
+        background-color: #020617;
         background-image: linear-gradient(
           to left,
-          #ffffff,
-          #fbfbfb,
-          #fbfbfb,
-          #fbfbfb,
-          #ffffff
+          #020617,
+          #020b26,
+          #020b26,
+          #020b26,
+          #020617
         );
       }
 

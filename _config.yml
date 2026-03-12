@@ -17,19 +17,19 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Hyeoninii's 블로그 # the main title
+title: Hyeoniill DEVLOG # the main title
 
 tagline: CNU CSE # it will display as the subtitle
 
 description: >- # used by seo meta and the atom feed
-  testing 
+  Hyeoninii's DEVLOG
   
 # Fill in the protocol & hostname for your site.
 # E.g. 'https://username.github.io', note that it does not end with a '/'.
-url: "https://hyeoninii.github.io"
+url: "https://hyeoniill.github.io"
 
 github:
-  username: Hyeoninii # change to your GitHub username
+  username: Hyeoniill # change to your GitHub username
 
 twitter:
   username: none # change to your Twitter username
@@ -37,12 +37,12 @@ twitter:
 social:
   # Change to your full name.
   # It will be displayed as the default author of the posts and the copyright owner in the Footer
-  name: 박종현
+  name: Hyeoniill
   email: hyeoninii0314@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
     #- https://twitter.com/username # change to your Twitter homepage
-    - https://github.com/Hyeoninii # change to your GitHub homepage
+    - https://github.com/Hyeoniill # change to your GitHub homepage
     # Uncomment below to add more social links
     # - https://www.facebook.com/username
     # - https://www.linkedin.com/in/username
@@ -121,7 +121,7 @@ comments:
     issue_term: # < url | pathname | title | ...>
   # Giscus options › https://giscus.app
   giscus:
-    repo: Hyeoninii/hyeoninii.github.io
+    repo: Hyeoniill/hyeoniill.github.io
     repo_id: "R_kgDOODaKQg"
     category: "General"
     category_id: "DIC_kwDOODaKQs4CorWv"
@@ -149,7 +149,7 @@ pwa:
     deny_paths:
       # - "/example"  # URLs match `<SITE_URL>/example/*` will not be cached by the PWA
 
-paginate: 10
+paginate: 8
 
 # The base URL of your site
 baseurl: ""

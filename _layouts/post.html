@@ -14,9 +14,10 @@ script_includes:
 
 {% include toc-status.html %}
 
-<article class="px-1" data-toc="{{ enable_toc }}">
-  <header>
-    <h1 data-toc-skip>{{ page.title }}</h1>
+<article class="px-1 post-article" data-toc="{{ enable_toc }}">
+  <section class="post-hero">
+  <header class="post-hero-inner text-center">
+    <h1 data-toc-skip class="post-title-main">{{ page.title }}</h1>
     {% if page.description %}
       <p class="post-desc fw-light mb-4">{{ page.description }}</p>
     {% endif %}
@@ -53,7 +54,7 @@ script_includes:
         </div>
       {% endif %}
 
-      <div class="d-flex justify-content-between">
+      <div class="d-flex justify-content-between post-meta-bottom">
         <!-- author(s) -->
         <span>
           {% if page.author %}
@@ -97,6 +98,9 @@ script_includes:
       </div>
     </div>
   </header>
+  </section>
+
+  <div class="post-body-card">
 
   {% if enable_toc %}
     <div id="toc-bar" class="d-flex align-items-center justify-content-between invisible">
@@ -176,4 +180,5 @@ script_includes:
     <!-- .post-tail-bottom -->
   </div>
   <!-- div.post-tail-wrapper -->
+  </div>
 </article>

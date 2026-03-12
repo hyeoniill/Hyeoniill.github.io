@@ -40,11 +40,30 @@
     </nav>
     <!-- endof #breadcrumb -->
 
-    <button type="button" id="sidebar-trigger" class="btn btn-link">
+    <!-- 모바일/중간/일반 데스크톱용 상단 내비게이션 (사이드바 축약 버전, 아바타 없음) -->
+    <nav class="d-flex d-xxl-none ms-3" aria-label="Mobile Navigation">
+      <ul class="nav">
+        <li class="nav-item{% if page.layout == 'home' %} active{% endif %}">
+          <a href="{{ '/' | relative_url }}" class="nav-link px-2">
+            <i class="fa-fw fas fa-home"></i>
+          </a>
+        </li>
+        {% for tab in site.tabs %}
+          <li class="nav-item{% if tab.url == page.url %} active{% endif %}">
+            <a href="{{ tab.url | relative_url }}" class="nav-link px-2">
+              <i class="fa-fw {{ tab.icon }}"></i>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </nav>
+
+    <!-- 가장 큰 화면에서만 보이는 사이드바 토글 버튼 -->
+    <button type="button" id="sidebar-trigger" class="btn btn-link d-none d-xxl-inline-flex ms-auto">
       <i class="fas fa-bars fa-fw"></i>
     </button>
 
-    <div id="topbar-title">
+    <div id="topbar-title" class="ms-2">
       {% if page.layout == 'home' %}
         {{- site.data.locales[include.lang].title | default: site.title -}}
       {% elsif page.collection == 'tabs' or page.layout == 'page' %}

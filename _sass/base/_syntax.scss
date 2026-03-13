@@ -137,11 +137,10 @@ div[class^='language-'] {
         width: v.$code-dot-size;
         height: v.$code-dot-size;
         border-radius: 50%;
-        background-color: var(--code-header-muted-color);
-        box-shadow: (v.$code-dot-size + v.$code-dot-gap) 0 0
-            var(--code-header-muted-color),
-          (v.$code-dot-size + v.$code-dot-gap) * 2 0 0
-            var(--code-header-muted-color);
+        /* macOS 창 컨트롤 색상: 빨강, 노랑, 초록 */
+        background-color: #ff5f57; // close (red)
+        box-shadow: (v.$code-dot-size + v.$code-dot-gap) 0 0 #febc2e, // minimize (yellow)
+          (v.$code-dot-size + v.$code-dot-gap) * 2 0 0 #28c840; // zoom (green)
       }
 
       span {

@@ -3,57 +3,43 @@
 @use '../abstracts/breakpoints' as bp;
 @use '../abstracts/placeholders';
 
+/* ---------------- 기본 스타일 (xl 이상) ---------------- */
+
 #topbar-wrapper {
   height: v.$topbar-height;
   background-color: var(--topbar-bg);
 
-  @include bp.lt(bp.get(lg)) {
-    @include mx.slide(top 0.2s ease);
+  position: relative;
 
-    left: 0;
+  &::before {
+    content: "";
+    position: absolute;
+    left: -100vw;
+    width: 200vw;
+    height: 100%;
+    background: var(--topbar-bg);
+    z-index: -1;
   }
 }
 
 #topbar {
   @extend %btn-color;
+}
 
-  #breadcrumb {
-    font-size: 1rem;
-    color: var(--text-muted-color);
-    padding-left: 0.5rem;
+#breadcrumb {
+  font-size: 1rem;
+  color: var(--text-muted-color);
+  padding-left: 0.5rem;
 
-    a:hover {
-      @extend %link-hover;
-    }
-
-    span {
-      &:not(:last-child) {
-        &::after {
-          content: '›';
-          padding: 0 0.3rem;
-        }
-      }
-    }
-
-    @include bp.lt(bp.get(lg)) {
-      display: none;
-    }
-
-    @include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
-      width: 65%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      word-break: keep-all;
-      white-space: nowrap;
-    }
+  a:hover {
+    @extend %link-hover;
   }
 
-  @include bp.lte(bp.get(md)) {
-    @include mx.max-w-100;
-  }
-
-  @include bp.lt(bp.get(lg)) {
-    max-width: 100%;
+  span {
+    &:not(:last-child)::after {
+      content: '›';
+      padding: 0 0.3rem;
+    }
   }
 }
 
@@ -66,21 +52,81 @@
   text-align: center;
   width: 70%;
   word-break: keep-all;
-
-  @include bp.lt(bp.get(lg)) {
-    display: block;
-  }
-
-  @include bp.lg {
-    text-align: left;
-  }
 }
 
 #sidebar-trigger,
 #search-trigger {
   display: none;
+}
 
-  @include bp.lt(bp.get(lg)) {
+
+/* ---------------- md 이하 ---------------- */
+
+@include bp.lte(bp.get(md)) {
+  #topbar {
+    @include mx.max-w-100;
+  }
+}
+
+
+/* ---------------- lg 이하 (모바일 / 태블릿) ---------------- */
+
+@include bp.lt(bp.get(lg)) {
+
+  #topbar-wrapper {
+    @include mx.slide(top 0.2s ease);
+    left: 0;
+  }
+
+  #topbar {
+    max-width: 100%;
+  }
+
+  #breadcrumb {
+    display: none;
+  }
+
+  #sidebar-trigger,
+  #search-trigger {
     display: block;
+  }
+}
+
+
+/* ---------------- lg ~ xl (중간 데스크톱) ---------------- */
+
+@include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
+
+  #topbar {
+    display: flex;
+  }
+
+  #breadcrumb {
+    display: none;
+  }
+
+  #topbar-title {
+    display: block;
+    text-align: left;
+    width: auto;
+    margin-right: auto;
+    order: 1;
+  }
+
+  nav[aria-label='Mobile Navigation'] {
+    order: 2;
+    margin-left: auto;
+  }
+
+  #sidebar-trigger {
+    display: none;
+  }
+
+  #breadcrumb {
+    width: 65%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    word-break: keep-all;
+    white-space: nowrap;
   }
 }

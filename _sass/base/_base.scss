@@ -3,35 +3,14 @@
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
 @use '../themes/light';
-@use '../themes/dark';
 
 :root {
   font-size: 16px;
 }
 
 html {
-  @media (prefers-color-scheme: light) {
-    &:not([data-mode]),
-    &[data-mode='light'] {
-      @include light.styles;
-    }
-
-    &[data-mode='dark'] {
-      @include dark.styles;
-    }
-  }
-
-  @media (prefers-color-scheme: dark) {
-    &:not([data-mode]),
-    &[data-mode='dark'] {
-      @include dark.styles;
-    }
-
-    &[data-mode='light'] {
-      @include light.styles;
-    }
-  }
-
+  /* 항상 라이트 테마만 사용 */
+  @include light.styles;
   @include bp.lg {
     overflow-y: scroll;
   }
@@ -417,6 +396,10 @@ mjx-container {
 
   @include bp.lg {
     margin-left: v.$sidebar-width;
+  }
+
+  @include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
+    margin-left: 0;
   }
 
   @include bp.xxxl {

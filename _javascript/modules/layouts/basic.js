@@ -1,7 +1,6 @@
-import { back2top, loadTooptip, modeWatcher } from '../components';
+import { back2top, loadTooptip } from '../components';
 
 export function basic() {
-  modeWatcher();
   back2top();
   loadTooptip();
 }

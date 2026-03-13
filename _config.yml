@@ -17,7 +17,7 @@ timezone: Asia/Seoul
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Hyeoniill DEVLOG # the main title
+title: Hyeoniill DEVLog # the main title
 
 tagline: CNU CSE # it will display as the subtitle
 
@@ -62,7 +62,7 @@ webmaster_verifications:
 # Web Analytics Settings
 analytics:
   google:
-    id: G-Y45ZDRS7GQ
+    id: G-Y45ZDRS7GQ 
   goatcounter:
     id: # fill in your GoatCounter ID
   umami:
@@ -152,7 +152,7 @@ pwa:
 paginate: 8
 
 # The base URL of your site
-baseurl: ""
+baseurl: "hyeoniill"
 
 # ------------ The following options are not recommended to be modified ------------------
 

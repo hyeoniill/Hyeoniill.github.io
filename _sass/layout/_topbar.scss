@@ -1,25 +1,15 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/placeholders';
 
-/* ---------------- 기본 스타일 (xl 이상) ---------------- */
+/* 토프바 공통 (반응형은 _topbar-responsive.scss, mobile first) */
+
+/* =============================================================================
+   공통 (모든 화면)
+   ============================================================================= */
 
 #topbar-wrapper {
   height: v.$topbar-height;
   background-color: var(--topbar-bg);
-
-  position: relative;
-
-  &::before {
-    content: "";
-    position: absolute;
-    left: -100vw;
-    width: 200vw;
-    height: 100%;
-    background: var(--topbar-bg);
-    z-index: -1;
-  }
 }
 
 #topbar {
@@ -35,11 +25,9 @@
     @extend %link-hover;
   }
 
-  span {
-    &:not(:last-child)::after {
-      content: '›';
-      padding: 0 0.3rem;
-    }
+  span:not(:last-child)::after {
+    content: '›';
+    padding: 0 0.3rem;
   }
 }
 
@@ -56,77 +44,23 @@
 
 #sidebar-trigger,
 #search-trigger {
+  /* 기본은 none, 반응형에서 모바일일 때 block */
   display: none;
 }
 
+/* 헤더 오른쪽 프로필 사진 (반응형에서 표시 구간 제어) */
+#topbar-avatar {
+  display: none;
+  flex-shrink: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  overflow: hidden;
+  border-radius: 50%;
+  box-shadow: var(--avatar-border-color, rgba(0, 0, 0, 0.1)) 0 0 0 2px;
 
-/* ---------------- md 이하 ---------------- */
-
-@include bp.lte(bp.get(md)) {
-  #topbar {
-    @include mx.max-w-100;
-  }
-}
-
-
-/* ---------------- lg 이하 (모바일 / 태블릿) ---------------- */
-
-@include bp.lt(bp.get(lg)) {
-
-  #topbar-wrapper {
-    @include mx.slide(top 0.2s ease);
-    left: 0;
-  }
-
-  #topbar {
-    max-width: 100%;
-  }
-
-  #breadcrumb {
-    display: none;
-  }
-
-  #sidebar-trigger,
-  #search-trigger {
-    display: block;
-  }
-}
-
-
-/* ---------------- lg ~ xl (중간 데스크톱) ---------------- */
-
-@include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
-
-  #topbar {
-    display: flex;
-  }
-
-  #breadcrumb {
-    display: none;
-  }
-
-  #topbar-title {
-    display: block;
-    text-align: left;
-    width: auto;
-    margin-right: auto;
-    order: 1;
-  }
-
-  nav[aria-label='Mobile Navigation'] {
-    order: 2;
-    margin-left: auto;
-  }
-
-  #sidebar-trigger {
-    display: none;
-  }
-
-  #breadcrumb {
-    width: 65%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    word-break: keep-all;
-    white-space: nowrap;
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 }

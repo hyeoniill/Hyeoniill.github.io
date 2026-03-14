@@ -1,16 +1,9 @@
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _archives-responsive.scss, mobile first) */
 
 #archives {
   letter-spacing: 0.03rem;
-
-  @include bp.lt(bp.get(sm)) {
-    margin-top: -1rem;
-
-    ul {
-      letter-spacing: 0;
-    }
-  }
 
   $timeline-width: 4px;
 

@@ -1,0 +1,38 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/mixins' as mx;
+
+/* Mobile First: 기본 = 모바일, sm ≥576px */
+
+/* =============================================================================
+   큰 모바일 (≥ 576px) — 코드 블록 여백/둥근 모서리
+   ============================================================================= */
+
+@include bp.sm {
+  .content > div[class^='language-'] {
+    @include mx.ml-mr(0);
+    border-radius: v.$radius-lg;
+  }
+
+  .content > div[class^='language-'] .code-header {
+    @include mx.ml-mr(0);
+
+    $dot-margin: 1rem;
+
+    &::before {
+      content: '';
+      display: inline-block;
+      margin-left: $dot-margin;
+      width: v.$code-dot-size;
+      height: v.$code-dot-size;
+      border-radius: 50%;
+      background-color: #ff5f57;
+      box-shadow: (v.$code-dot-size + v.$code-dot-gap) 0 0 #febc2e,
+        (v.$code-dot-size + v.$code-dot-gap) * 2 0 0 #28c840;
+    }
+
+    span {
+      margin-left: calc(($dot-margin + v.$code-dot-size) / 2 * -1);
+    }
+  }
+}

@@ -1,6 +1,7 @@
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
+
+/* 패널 공통 (반응형은 _panel-responsive.scss, mobile first) */
 
 .access {
   top: 2rem;
@@ -28,7 +29,9 @@
 }
 
 #panel-wrapper {
-  /* the headings */
+  /* 모바일/태블릿에서는 숨김, xl에서 표시 (_panel-responsive.scss) */
+  display: none;
+
   .panel-heading {
     font-family: inherit;
     line-height: inherit;
@@ -50,10 +53,6 @@
 
   > :last-child {
     margin-bottom: 4rem;
-  }
-
-  @include bp.lt(bp.get(xl)) {
-    display: none;
   }
 }
 

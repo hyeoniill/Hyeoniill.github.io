@@ -1,0 +1,25 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+
+/* Mobile First: lg ≥850px, xxl ≥1400px, xxxl ≥1650px */
+
+@include bp.lg {
+  #back-to-top {
+    right: 5%;
+    bottom: calc(v.$footer-height - v.$back2top-size / 2);
+  }
+}
+
+@include bp.xxl {
+  #back-to-top {
+    right: calc((100vw - v.$sidebar-width - 1140px) / 2 + 3rem);
+  }
+}
+
+@include bp.xxxl {
+  #back-to-top {
+    right: calc(
+      (100vw - v.$sidebar-width-large - v.$main-content-max-width) / 2 + 2rem
+    );
+  }
+}

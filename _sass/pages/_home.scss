@@ -1,13 +1,10 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _home-responsive.scss, mobile first) */
 
 #post-list {
   margin-top: 2rem;
-
-  @include bp.lg {
-    margin-top: 2.5rem;
-  }
 
   .card-wrapper {
     &:hover {
@@ -23,114 +20,56 @@
     border: 0;
     background: none;
 
-    %img-radius {
-      border-radius: v.$radius-lg v.$radius-lg 0 0;
-
-      @include bp.md {
-        border-radius: 0 v.$radius-lg v.$radius-lg 0;
-      }
-    }
-
-    .preview-img {
-      @extend %img-radius;
-
-      img {
-        @extend %img-radius;
-      }
-    }
-
     .card-body {
       height: 100%;
       padding: 1rem;
+    }
 
-      @include bp.md {
-        padding: 1.75rem 1.75rem 1.25rem;
-      }
+    .card-title {
+      @extend %text-clip;
+      color: var(--heading-color) !important;
+      font-size: 1.25rem;
+    }
 
-      .card-title {
-        @extend %text-clip;
-
-        color: var(--heading-color) !important;
-        font-size: 1.25rem;
-      }
-
-      %muted {
-        color: var(--text-muted-color) !important;
-      }
-
-      .card-text {
-        @include bp.md {
-          display: inherit !important;
-        }
-
-        &.content {
-          @extend %muted;
-
-          p {
-            @extend %text-clip;
-
-            line-height: 1.5;
-            margin: 0;
-          }
-        }
-      }
-
-      .post-meta {
-        @extend %muted;
-
-        i {
-          &:not(:first-child) {
-            margin-left: 1.5rem;
-
-            @include bp.md {
-              margin-left: 1.75rem;
-            }
-          }
-        }
-
-        em {
-          @extend %normal-font-style;
-
-          color: inherit;
-        }
-
-        > div:first-child {
-          display: block;
-
-          @extend %text-ellipsis;
+    .card-text {
+      &.content {
+        p {
+          @extend %text-clip;
+          line-height: 1.5;
+          margin: 0;
         }
       }
     }
+
+    .post-meta {
+      em {
+        @extend %normal-font-style;
+        color: inherit;
+      }
+
+      > div:first-child {
+        display: block;
+        @extend %text-ellipsis;
+      }
+    }
   }
-} /* #post-list */
+}
+
+#post-list .card .card-text,
+#post-list .card .post-meta {
+  color: var(--text-muted-color) !important;
+}
 
 .pagination {
   color: var(--text-color);
   font-family: Lato, sans-serif;
   justify-content: space-evenly;
 
-  @include bp.lg {
-    font-size: 0.85rem;
-    justify-content: center;
-  }
-
   a:hover {
     text-decoration: none;
   }
 
   .page-item {
-    @include bp.lt(bp.get(lg)) {
-      &:not(:first-child):not(:last-child) {
-        display: none;
-      }
-    }
-
-    @include bp.lg {
-      &:not(:last-child) {
-        margin-right: 0.7rem;
-      }
-    }
-
     .page-link {
       color: var(--btn-patinator-text-color);
       padding: 0 0.6rem;
@@ -142,18 +81,12 @@
       background-color: inherit;
     }
 
-    &.active {
-      .page-link {
-        background-color: var(--btn-paginator-hover-color);
-      }
+    &.active .page-link {
+      background-color: var(--btn-paginator-hover-color);
     }
 
-    &:not(.active) {
-      .page-link {
-        &:hover {
-          box-shadow: inset var(--btn-border-color) 0 0 0 1px;
-        }
-      }
+    &:not(.active) .page-link:hover {
+      box-shadow: inset var(--btn-border-color) 0 0 0 1px;
     }
 
     &.disabled {
@@ -163,11 +96,9 @@
         color: rgba(108, 117, 125, 0.57);
       }
     }
-  } /* .page-item */
+  }
 
   .page-index {
-    @include bp.lg {
-      display: none;
-    }
+    display: block;
   }
 }

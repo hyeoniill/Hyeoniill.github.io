@@ -1,0 +1,101 @@
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/variables' as v;
+
+/* Mobile First: 기본 = 모바일, lg ≥850px, xl ≥1200px, xxxl ≥1650px */
+
+/* =============================================================================
+   모바일 (기본)
+   ============================================================================= */
+
+search {
+  display: none;
+}
+
+#search-result-wrapper {
+  width: 100%;
+
+  .content {
+    letter-spacing: 0;
+  }
+}
+
+#search-results > article {
+  width: 100%;
+}
+
+#search-hints {
+  display: block;
+}
+
+/* =============================================================================
+   태블릿 (≥ 850px)
+   ============================================================================= */
+
+@include bp.lg {
+  search {
+    display: flex;
+    max-width: v.$search-max-width;
+  }
+
+  #search-result-wrapper {
+    max-width: v.$main-content-max-width;
+    justify-content: start !important;
+  }
+
+  #search-hints {
+    display: none;
+  }
+}
+
+/* =============================================================================
+   태블릿 구간 (850px ~ 1199px)
+   ============================================================================= */
+
+@include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
+  #search-results > div {
+    max-width: 700px;
+  }
+}
+
+/* =============================================================================
+   데스크톱 (≥ 1200px)
+   ============================================================================= */
+
+@include bp.xl {
+  search {
+    margin-right: 4rem;
+  }
+
+  #search-results > article {
+    width: 45%;
+
+    &:nth-child(odd) {
+      margin-right: 1.5rem;
+    }
+
+    &:nth-child(even) {
+      margin-left: 1.5rem;
+    }
+
+    &:last-child:nth-child(odd) {
+      position: relative;
+      right: 24.3%;
+    }
+  }
+
+  #search-input {
+    transition: all 0.3s ease-in-out;
+  }
+}
+
+/* =============================================================================
+   대형 데스크톱 (≥ 1650px)
+   ============================================================================= */
+
+@include bp.xxxl {
+  search {
+    margin-right: calc(
+      v.$main-content-max-width / 4 - v.$search-max-width - 0.75rem
+    );
+  }
+}

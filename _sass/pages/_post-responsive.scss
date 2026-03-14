@@ -1,0 +1,146 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/mixins' as mx;
+
+/* Mobile First: 기본 = 모바일, sm ≥576px, md ≥768px, lg ≥850px, xl ≥1200px */
+
+/* =============================================================================
+   모바일 (기본)
+   ============================================================================= */
+
+.post-tail-bottom {
+  flex-wrap: wrap-reverse !important;
+
+  > div:first-child {
+    width: 100%;
+    margin-top: 1rem;
+  }
+}
+
+.post-navigation {
+  @include mx.pl-pr(0);
+  @include mx.ml-mr(-0.5rem);
+}
+
+.content > p > img {
+  max-width: calc(100% + 1rem);
+}
+
+#toc-bar {
+  height: v.$topbar-height-mobile;
+
+  &.invisible {
+    top: -#{v.$topbar-height-mobile};
+  }
+}
+
+/* 모바일에서 TOC 슬라이드 애니메이션 높이 */
+@media (max-width: 849px) {
+  @-webkit-keyframes slide-in {
+    from {
+      opacity: 0.7;
+      transform: translateY(-#{v.$topbar-height-mobile});
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slide-in {
+    from {
+      opacity: 0.7;
+      transform: translateY(-#{v.$topbar-height-mobile});
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @-webkit-keyframes slide-out {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-#{v.$topbar-height-mobile});
+      opacity: 0;
+    }
+  }
+  @keyframes slide-out {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-#{v.$topbar-height-mobile});
+      opacity: 0;
+    }
+  }
+}
+
+#toc-solo-trigger {
+  display: block;
+}
+
+/* =============================================================================
+   큰 모바일 (≥ 576px)
+   ============================================================================= */
+
+@include bp.sm {
+  .post-tail-bottom {
+    flex-wrap: inherit;
+
+    > div:first-child {
+      width: auto;
+      margin-top: 0;
+    }
+  }
+}
+
+/* =============================================================================
+   태블릿 (≥ 768px)
+   ============================================================================= */
+
+@include bp.md {
+  .content > p > img {
+    max-width: 100%;
+  }
+}
+
+/* =============================================================================
+   데스크톱 (≥ 850px)
+   ============================================================================= */
+
+@include bp.lg {
+  .post-navigation {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  #toc-bar {
+    height: v.$topbar-height;
+
+    &.invisible {
+      top: -#{v.$topbar-height};
+    }
+  }
+}
+
+/* =============================================================================
+   데스크톱 (≥ 1200px) — TOC 바 숨김, 스크롤 여백
+   ============================================================================= */
+
+@include bp.xl {
+  #toc-bar,
+  #toc-solo-trigger {
+    display: none !important;
+  }
+
+  h2,
+  h3,
+  h4 {
+    scroll-margin-top: 2rem;
+  }
+}

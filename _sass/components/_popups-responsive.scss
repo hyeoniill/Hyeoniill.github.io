@@ -1,0 +1,30 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+
+/* Mobile First: sm ≥576px, lg ≥850px */
+
+/* 모바일: 헤더 높이에 맞춤 */
+#toc-popup {
+  margin-top: v.$topbar-height-mobile;
+}
+
+#toc-popup #toc-popup-content {
+  max-height: calc(100vh - 4 * v.$topbar-height-mobile);
+}
+
+@include bp.sm {
+  #toc-popup {
+    max-width: 32rem;
+  }
+}
+
+@include bp.lg {
+  #toc-popup {
+    left: v.$sidebar-width;
+    margin-top: v.$topbar-height;
+  }
+
+  #toc-popup #toc-popup-content {
+    max-height: calc(100vh - 4 * v.$topbar-height);
+  }
+}

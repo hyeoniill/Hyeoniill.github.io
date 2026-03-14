@@ -1,21 +1,13 @@
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/variables' as v;
-@use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
+
+/* 푸터 공통 (반응형은 _footer-responsive.scss, mobile first) */
 
 footer {
   background-color: var(--main-bg);
-  height: v.$footer-height;
   border-top: 1px solid var(--main-border-color);
 
   @extend %text-xs;
-
-  @include bp.lt(bp.get(lg)) {
-    @include mx.slide;
-
-    height: v.$footer-height-large;
-    padding: 1.5rem 0;
-  }
 
   a {
     @extend %text-highlight;

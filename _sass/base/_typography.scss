@@ -1,7 +1,8 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _typography-responsive.scss, mobile first) */
 
 @for $i from 1 through 5 {
   h#{$i} {
@@ -152,10 +153,6 @@ main {
 
   h1 {
     margin-top: 2rem;
-
-    @include bp.lg {
-      margin-top: 3rem;
-    }
   }
 
   p {
@@ -171,17 +168,6 @@ main {
   #archives {
     a:not(:hover) {
       @extend %no-bottom-border;
-    }
-  }
-
-  @include bp.lte(bp.get(sm)) {
-    .content {
-      > blockquote[class^='prompt-'] {
-        @include mx.ml-mr(-1rem);
-
-        border-radius: 0;
-        max-width: none;
-      }
     }
   }
 }

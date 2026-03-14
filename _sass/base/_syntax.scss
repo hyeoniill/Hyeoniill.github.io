@@ -1,7 +1,8 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _syntax-responsive.scss, mobile first) */
 
 .highlighter-rouge {
   color: var(--highlighter-rouge-color);
@@ -114,40 +115,7 @@ div[class^='language-'] {
 
   .content > & {
     @include mx.ml-mr(-1rem);
-
     border-radius: 0;
-
-    @include bp.sm {
-      @include mx.ml-mr(0);
-
-      border-radius: v.$radius-lg;
-    }
-  }
-
-  .code-header {
-    @include bp.sm {
-      @include mx.ml-mr(0);
-
-      $dot-margin: 1rem;
-
-      &::before {
-        content: '';
-        display: inline-block;
-        margin-left: $dot-margin;
-        width: v.$code-dot-size;
-        height: v.$code-dot-size;
-        border-radius: 50%;
-        /* macOS 창 컨트롤 색상: 빨강, 노랑, 초록 */
-        background-color: #ff5f57; // close (red)
-        box-shadow: (v.$code-dot-size + v.$code-dot-gap) 0 0 #febc2e, // minimize (yellow)
-          (v.$code-dot-size + v.$code-dot-gap) * 2 0 0 #28c840; // zoom (green)
-      }
-
-      span {
-        // center the text of label
-        margin-left: calc(($dot-margin + v.$code-dot-size) / 2 * -1);
-      }
-    }
   }
 
   .highlight {

@@ -1,0 +1,80 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/placeholders';
+
+/* Mobile First: 기본 = 모바일, md ≥768px, lg ≥850px */
+
+/* =============================================================================
+   모바일 (기본)
+   ============================================================================= */
+
+#post-list .card .preview-img,
+#post-list .card .preview-img img {
+  border-radius: v.$radius-lg v.$radius-lg 0 0;
+}
+
+#post-list .card .card-text.content {
+  display: none;
+}
+
+#post-list .card .post-meta i:not(:first-child) {
+  margin-left: 1.5rem;
+}
+
+.pagination .page-item:not(:first-child):not(:last-child) {
+  display: none;
+}
+
+.pagination .page-index {
+  display: block;
+}
+
+/* =============================================================================
+   태블릿 (≥ 768px)
+   ============================================================================= */
+
+@include bp.md {
+  #post-list .card .preview-img,
+  #post-list .card .preview-img img {
+    border-radius: 0 v.$radius-lg v.$radius-lg 0;
+  }
+
+  #post-list .card .card-body {
+    padding: 1.75rem 1.75rem 1.25rem;
+  }
+
+  #post-list .card .card-text {
+    display: inherit !important;
+  }
+
+  #post-list .card .post-meta i:not(:first-child) {
+    margin-left: 1.75rem;
+  }
+}
+
+/* =============================================================================
+   데스크톱 (≥ 850px)
+   ============================================================================= */
+
+@include bp.lg {
+  #post-list {
+    margin-top: 2.5rem;
+  }
+
+  .pagination {
+    font-size: 0.85rem;
+    justify-content: center;
+  }
+
+  .pagination .page-item:not(:first-child):not(:last-child) {
+    display: flex;
+  }
+
+  .pagination .page-item:not(:last-child) {
+    margin-right: 0.7rem;
+  }
+
+  .pagination .page-index {
+    display: none;
+  }
+}

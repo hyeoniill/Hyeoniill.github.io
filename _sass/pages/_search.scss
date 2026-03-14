@@ -1,9 +1,9 @@
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/variables' as v;
 @use '../abstracts/placeholders';
 
+/* 공통 (반응형은 _search-responsive.scss, mobile first) */
+
 search {
-  display: flex;
   width: 100%;
   border-radius: 1rem;
   border: 1px solid var(--search-border-color);
@@ -14,24 +14,6 @@ search {
     z-index: 2;
     font-size: 0.9rem;
     color: var(--search-icon-color);
-  }
-
-  @include bp.lt(bp.get(lg)) {
-    display: none;
-  }
-
-  @include bp.lg {
-    max-width: v.$search-max-width;
-  }
-
-  @include bp.xl {
-    margin-right: 4rem;
-  }
-
-  @include bp.xxxl {
-    margin-right: calc(
-      v.$main-content-max-width / 4 - v.$search-max-width - 0.75rem
-    );
   }
 }
 
@@ -44,29 +26,10 @@ search {
   .content {
     margin-top: 2rem;
   }
-
-  @include bp.lt(bp.get(lg)) {
-    width: 100%;
-
-    .content {
-      letter-spacing: 0;
-    }
-  }
-
-  @include bp.lg {
-    max-width: v.$main-content-max-width;
-    justify-content: start !important;
-  }
 }
 
 #search-results {
   padding-bottom: 3rem;
-
-  @include bp.between(bp.get(lg), calc(#{bp.get(xl)} - 1px)) {
-    > div {
-      max-width: 700px;
-    }
-  }
 
   a {
     font-size: 1.4rem;
@@ -82,27 +45,8 @@ search {
   }
 
   > article {
-    width: 100%;
-
     &:not(:last-child) {
       margin-bottom: 1rem;
-    }
-
-    @include bp.xl {
-      width: 45%;
-
-      &:nth-child(odd) {
-        margin-right: 1.5rem;
-      }
-
-      &:nth-child(even) {
-        margin-left: 1.5rem;
-      }
-
-      &:last-child:nth-child(odd) {
-        position: relative;
-        right: 24.3%;
-      }
     }
 
     h2 {
@@ -127,15 +71,6 @@ search {
   }
 }
 
-/* 'Cancel' link */
-#search-cancel {
-  color: var(--link-color);
-  display: none;
-  white-space: nowrap;
-
-  @extend %cursor-pointer;
-}
-
 #search-input {
   background: center;
   border: 0;
@@ -147,18 +82,19 @@ search {
   &:focus {
     box-shadow: none;
   }
+}
 
-  @include bp.xl {
-    transition: all 0.3s ease-in-out;
-  }
+/* 'Cancel' link */
+#search-cancel {
+  color: var(--link-color);
+  display: none;
+  white-space: nowrap;
+
+  @extend %cursor-pointer;
 }
 
 #search-hints {
   padding: 0 1rem;
-
-  @include bp.lg {
-    display: none;
-  }
 
   h4 {
     margin-bottom: 1.5rem;

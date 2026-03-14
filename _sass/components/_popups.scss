@@ -1,6 +1,7 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _popups-responsive.scss, mobile first) */
 
 /* PWA update popup */
 #notification {
@@ -68,10 +69,6 @@
   min-width: 20rem;
   font-size: 1.05rem;
 
-  @include bp.sm {
-    max-width: 32rem;
-  }
-
   &[open] {
     -webkit-animation: $slide-in;
     animation: $slide-in;
@@ -80,10 +77,6 @@
   &[closing] {
     -webkit-animation: $slide-out;
     animation: $slide-out;
-  }
-
-  @include bp.lg {
-    left: v.$sidebar-width;
   }
 
   .header {

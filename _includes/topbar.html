@@ -74,6 +74,14 @@
       {% endif %}
     </div>
 
-    <!-- Search UI removed -->
+    <!-- 모바일/태블릿: 헤더 오른쪽 프로필 사진 (사이드바 숨김일 때만) -->
+    <a href="{{ '/' | relative_url }}" id="topbar-avatar" aria-label="Profile">
+      {%- if site.avatar != empty and site.avatar -%}
+        {%- capture avatar_url -%}
+          {% include media-url.html src=site.avatar %}
+        {%- endcapture -%}
+        <img src="{{- avatar_url -}}" width="40" height="40" alt="avatar" onerror="this.style.display='none'">
+      {%- endif -%}
+    </a>
   </div>
 </header>

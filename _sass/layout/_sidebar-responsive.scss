@@ -1,0 +1,121 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as mx;
+@use '../abstracts/breakpoints' as bp;
+
+/* 화면 구간
+   mobile: 기본
+   sm: ≥ 576px
+   lg: ≥ 850px
+   xl: ≥ 1200px
+   xxxl: ≥ 1650px
+*/
+
+$sidebar-display: 'sidebar-display';
+
+/* =============================================================================
+   Mobile First (기본 = 모바일)
+   ============================================================================= */
+
+#sidebar {
+  @include mx.slide;
+
+  transform: translateX(-#{v.$sidebar-width});
+  -webkit-transform: translateX(-#{v.$sidebar-width});
+
+  /* 사이드바 열기 */
+  [#{$sidebar-display}] & {
+    transform: translateX(0);
+  }
+}
+
+/* 사이드바 열리면 main-wrapper 이동 */
+[#{$sidebar-display}] #main-wrapper {
+  transform: translateX(v.$sidebar-width);
+}
+
+
+/* =============================================================================
+   큰 모바일 (≥ 576px)
+   ============================================================================= */
+
+@include bp.sm {
+
+  #sidebar #avatar {
+    width: 7rem;
+    height: 7rem;
+  }
+
+}
+
+
+/* =============================================================================
+   태블릿 (≥ 850px)
+   ============================================================================= */
+
+@include bp.lg {
+
+  /* 사이드바 항상 표시 */
+  #sidebar {
+    transform: none;
+
+    .profile-wrapper {
+      margin-top: 3rem;
+    }
+  }
+
+  /* main-wrapper 이동 제거 */
+  #main-wrapper {
+    transform: none;
+  }
+
+}
+
+
+/* =============================================================================
+   데스크톱 (≥ 1200px)
+   ============================================================================= */
+
+@include bp.xl {
+
+  #sidebar {
+
+    ul li.nav-item {
+      @include mx.pl-pr(2rem);
+    }
+
+  }
+
+}
+
+
+/* =============================================================================
+   대형 데스크톱 (≥ 1650px)
+   ============================================================================= */
+
+@include bp.xxxl {
+
+  #sidebar {
+    width: v.$sidebar-width-large;
+
+    .profile-wrapper {
+      margin-top: 3.5rem;
+      margin-bottom: 2.5rem;
+      padding-left: 3.5rem;
+    }
+
+    ul li.nav-item {
+      @include mx.pl-pr(2.75rem);
+    }
+
+    .sidebar-bottom {
+      padding-left: 2.75rem;
+      margin-bottom: 1.75rem;
+
+      a:not(:last-child) {
+        margin-right: v.$sb-btn-gap-lg;
+      }
+    }
+
+  }
+
+}

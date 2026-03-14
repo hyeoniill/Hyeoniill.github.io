@@ -1,4 +1,4 @@
-@use '../abstracts/breakpoints' as bp;
+/* 공통 (반응형은 _tags-responsive.scss, mobile first) */
 
 .tag {
   border-radius: 0.7em;
@@ -17,7 +17,4 @@
 }
 
 #tags {
-  @include bp.lt(bp.get(lg)) {
-    justify-content: center !important;
-  }
 }

@@ -1,0 +1,122 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/mixins' as mx;
+
+/* Mobile First: 기본 = 모바일, md ≥768px, lg ≥850px, xl ≥1200px, xxxl ≥1650px */
+
+/* =============================================================================
+   모바일 (기본)
+   ============================================================================= */
+
+h1.dynamic-title {
+  display: none;
+
+  ~ .content {
+    margin-top: 2.5rem;
+  }
+}
+
+#main-wrapper {
+  @include mx.slide;
+}
+
+#main-wrapper > .container {
+  @include mx.max-w-100;
+  @include mx.pl-pr(0);
+  max-width: 100%;
+}
+
+#main-wrapper > .container > .row {
+  justify-content: center !important;
+}
+
+/* =============================================================================
+   태블릿 (≥ 850px)
+   ============================================================================= */
+
+@include bp.lg {
+  html {
+    overflow-y: scroll;
+  }
+
+  h1.dynamic-title {
+    display: block;
+
+    ~ .content {
+      margin-top: 0;
+    }
+  }
+
+  /* margin-left는 사이드바가 보이는 xxl(1400px)부터 적용, 태블릿에서는 빈 공간 없음 */
+  #main-wrapper {
+    transform: none;
+  }
+
+  #main-wrapper > .container {
+    max-width: none;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .content .table-wrapper > table {
+    min-width: 70%;
+  }
+}
+
+/* =============================================================================
+   태블릿 구간 (992px ~ 1199px)
+   ============================================================================= */
+
+@include bp.between(992px, calc(#{bp.get(xl)} - 1px)) {
+  #main-wrapper > .container .col-lg-11 {
+    flex: 0 0 96%;
+    max-width: 96%;
+  }
+}
+
+/* =============================================================================
+   데스크톱 (≥ 1200px)
+   ============================================================================= */
+
+@include bp.xl {
+  #main-wrapper > .container > .row {
+    justify-content: inherit;
+  }
+
+  .content {
+    font-size: 1.03rem;
+  }
+}
+
+/* =============================================================================
+   대형 데스크톱 (≥ 1400px) — 사이드바 표시, 본문 왼쪽 여백 적용
+   ============================================================================= */
+
+@include bp.xxl {
+  #main-wrapper {
+    margin-left: v.$sidebar-width;
+  }
+}
+
+/* =============================================================================
+   대형 데스크톱 (≥ 1650px)
+   ============================================================================= */
+
+@include bp.xxxl {
+  main.col-12 {
+    padding-right: 4.5rem !important;
+  }
+
+  #main-wrapper {
+    margin-left: v.$sidebar-width-large;
+  }
+
+  #main-wrapper > .container {
+    max-width: v.$main-content-max-width;
+    @include mx.pl-pr(1.75rem, true);
+  }
+
+  #tail-wrapper {
+    padding-right: 4.5rem !important;
+  }
+}

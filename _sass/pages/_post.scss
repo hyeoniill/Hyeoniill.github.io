@@ -1,7 +1,8 @@
 @use '../abstracts/variables' as v;
-@use '../abstracts/breakpoints' as bp;
 @use '../abstracts/mixins' as mx;
 @use '../abstracts/placeholders';
+
+/* 공통 (반응형은 _post-responsive.scss, mobile first) */
 
 %-btn-post-nav {
   width: 50%;
@@ -115,14 +116,6 @@ header {
 }
 
 .post-tail-bottom {
-  @include bp.lte(bp.get(sm)) {
-    flex-wrap: wrap-reverse !important;
-
-    > div:first-child {
-      width: 100%;
-      margin-top: 1rem;
-    }
-  }
 }
 
 .share-mastodon {
@@ -151,11 +144,6 @@ header {
 }
 
 .post-navigation {
-  @include bp.lt(bp.get(lg)) {
-    @include mx.pl-pr(0);
-    @include mx.ml-mr(-0.5rem);
-  }
-
   .btn {
     @extend %-btn-post-nav;
 
@@ -351,10 +339,6 @@ header {
 
   @extend %btn-color;
 
-  @include bp.xl {
-    display: none !important;
-  }
-
   .label {
     @extend %heading;
 
@@ -373,10 +357,6 @@ header {
   color: var(--text-muted-color);
   border-color: var(--btn-border-color);
   border-radius: v.$radius-lg;
-
-  @include bp.xl {
-    display: none !important;
-  }
 
   .label {
     font-size: 1rem;
@@ -483,16 +463,4 @@ header {
   }
 }
 
-.content > p > img {
-  @include bp.lte(bp.get(md)) {
-    max-width: calc(100% + 1rem);
-  }
-}
-
-h2,
-h3,
-h4 {
-  @include bp.xl {
-    scroll-margin-top: 2rem;
-  }
-}
+/* .content > p > img, h2/h3/h4 스크롤 여백 → _post-responsive.scss */

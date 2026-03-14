@@ -1,0 +1,42 @@
+@use '../abstracts/breakpoints' as bp;
+@use '../abstracts/mixins' as mx;
+
+/* Mobile First: 기본 = 모바일, sm ≥576px */
+
+/* =============================================================================
+   모바일 (기본)
+   ============================================================================= */
+
+#page-category,
+#page-tag {
+  ul > li {
+    &::before {
+      margin: 0 0.5rem;
+    }
+
+    > a {
+      @include mx.text-ellipsis;
+    }
+  }
+}
+
+/* =============================================================================
+   큰 모바일 (≥ 576px)
+   ============================================================================= */
+
+@include bp.sm {
+  #page-category,
+  #page-tag {
+    ul > li {
+      &::before {
+        margin-right: 0.5rem;
+      }
+
+      > a {
+        overflow: visible;
+        text-overflow: unset;
+        white-space: normal;
+      }
+    }
+  }
+}

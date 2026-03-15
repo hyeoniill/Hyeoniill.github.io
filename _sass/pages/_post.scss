@@ -4,6 +4,11 @@
 
 /* 공통 (반응형은 _post-responsive.scss, mobile first) */
 
+/* 포스트 본문 이미지 둥근 모서리 */
+.post-article .content img {
+  border-radius: v.$radius-lg;
+}
+
 %-btn-post-nav {
   width: 50%;
   position: relative;
@@ -449,6 +454,17 @@ header {
 .utterances {
   max-width: 100%;
   min-height: 269px;
+}
+
+/* 댓글 영역 글자 색상: 본문과 동일하게 가독성 확보 */
+#tail-wrapper {
+  color: var(--text-color);
+
+  /* giscus 등 댓글 위젯 감싸는 영역도 동일 색상 */
+  .giscus,
+  .giscus-frame {
+    color: var(--text-color);
+  }
 }
 
 %btn-share-hover {

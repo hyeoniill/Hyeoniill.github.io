@@ -1,8 +1,8 @@
 <!-- https://giscus.app/ -->
 <script>
   (function () {
-    /* 사이트를 항상 다크 톤으로 쓰므로, 댓글도 항상 다크 테마로 고정 */
-    const themeMapper = Theme.getThemeMapper('transparent_dark', 'transparent_dark');
+    /* 라이트 모드: 진한 글자(light 테마), 다크 모드: transparent_dark */
+    const themeMapper = Theme.getThemeMapper('light', 'transparent_dark');
     const initTheme = themeMapper[Theme.visualState];
 
     let lang = '{{ site.comments.giscus.lang | default: lang }}';

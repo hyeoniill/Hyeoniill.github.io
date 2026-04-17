@@ -1,0 +1,93 @@
+<script setup>
+// 사이드바/모바일 드롭다운에서 공통으로 쓰는 메뉴 리스트.
+// - 항목 정의(홈 + 고정 카테고리)는 이 한 곳에만 두어 변경 지점을 최소화합니다.
+// - 렌더링은 전역 `.nav-block` 스타일을 재사용하므로 별도 스타일은 거의 없습니다.
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+// 고정 카테고리 목록. URL 쿼리 값(`?category=<name>`)으로 그대로 들어갑니다.
+// 이후 포스트 프론트매터와 연결할 때도 이 배열을 기준으로 매핑합니다.
+const SIDEBAR_CATEGORIES = [
+  "Backend",
+  "Frontend",
+  "Algorithm",
+  "Blockchain",
+  "Security",
+  "OS",
+];
+
+// 활성 상태 판별은 수동으로 계산합니다.
+// router-link의 기본 `active-class`는 "경로(path)"만 비교하기 때문에,
+// 카테고리 링크(`/?category=…`)와 홈(`/`)이 동시에 활성화되는 문제가 있습니다.
+// → 홈/카테고리 모두 쿼리까지 확인해 배타적으로 하이라이트되도록 합니다.
+const route = useRoute();
+
+// 쿼리의 category를 안전하게 문자열로 변환. 없으면 빈 문자열.
+const currentCategory = computed(() => {
+  const q = route.query.category;
+  const raw = Array.isArray(q) ? q[0] : q;
+  if (!raw) return "";
+  return decodeURIComponent(String(raw));
+});
+
+// 홈은 "/ 경로 + ?category= 없음"일 때만 활성.
+const isHomeActive = computed(
+  () => route.path === "/" && currentCategory.value === "",
+);
+
+function isActiveCategory(name) {
+  return currentCategory.value === name;
+}
+</script>
+
+<template>
+  <div class="nav-menu">
+    <!--
+      주요 메뉴: 홈 단일 항목.
+      `active-class` 대신 수동 `is-active` 바인딩을 사용합니다.
+      (router-link 기본 active 매칭은 path만 비교해, 카테고리 링크와 동시 활성화되는 문제를 피하기 위함)
+    -->
+    <nav class="nav-block" aria-label="주요 메뉴">
+      <router-link to="/" :class="{ 'is-active': isHomeActive }">홈</router-link>
+    </nav>
+
+    <!-- 카테고리 메뉴: 고정 6개. 각 항목은 `/?category=<이름>`으로 이동 -->
+    <section class="category-section" aria-label="카테고리">
+      <h2 class="category-heading">카테고리</h2>
+      <nav class="nav-block">
+        <router-link
+          v-for="name in SIDEBAR_CATEGORIES"
+          :key="name"
+          :to="{ path: '/', query: { category: name } }"
+          :class="{ 'is-active': isActiveCategory(name) }"
+        >
+          {{ name }}
+        </router-link>
+      </nav>
+    </section>
+  </div>
+</template>
+
+<style scoped>
+/* 메뉴 전체 래퍼: 섹션 간 간격만 제공하고, 실제 링크 스타일은 전역 .nav-block이 담당 */
+.nav-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.category-section {
+  align-self: stretch;
+}
+
+.category-heading {
+  margin: 0 0 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text) 55%, var(--primary));
+  text-align: left;
+}
+</style>

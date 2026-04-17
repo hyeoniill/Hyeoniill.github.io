@@ -1,0 +1,451 @@
+/* =========================================================
+ * 디자인 토큰 (모바일 퍼스트 기본값)
+ * - 브레이크포인트는 파일 하단에서 `min-width`로만 상향 조정합니다.
+ * - 레이아웃 치수(`--sidebar-w`, `--content-max`)를 토큰으로 두고
+ *   컴포넌트 CSS는 토큰만 참조하도록 합니다.
+ * ========================================================= */
+:root {
+  /* 색상 */
+  --bg: #1e1e1e;
+  --primary: #3a5a78;
+  --accent: #e5b06c;
+  --sub: #6f7f9b;
+  --text: #eaeaea;
+  /* --bg: #FAF7F2;
+  --primary: #7A8C66;
+  --accent: #C9A87E;
+  --sub: #D8A7A7;
+  --text: #3A3A3A; */
+
+  /* 파생 색상 */
+  --text-muted: color-mix(in srgb, var(--text) 62%, var(--bg));
+  --surface-elevated: color-mix(in srgb, var(--bg) 88%, var(--primary));
+  --border: color-mix(in srgb, var(--sub) 35%, transparent);
+
+  /* 레이아웃 치수 (모바일 기본) */
+  --sidebar-w: 0px; /* 모바일: 사이드바 미노출 (MobileNav로 대체) */
+  --content-max: 42rem; /* 본문 기둥 최대 폭 */
+  --gutter: clamp(1rem, 4vw, 1.5rem); /* 좌우 공통 여백 */
+  --header-h: 3.5rem;
+  --footer-h: 3rem; /* 모바일 고정 푸터 높이 */
+
+  /* 공용 값 */
+  --radius: 10px;
+  --shadow: 0 12px 40px color-mix(in srgb, #000 45%, transparent);
+
+  /* z-index 체계 */
+  --z-header: 10;
+  --z-footer: 10;
+  --z-drawer: 50;
+}
+
+/* =========================================================
+ * 전역 리셋/기본 타이포
+ * ========================================================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  text-underline-offset: 0.18em;
+  transition:
+    color 0.15s ease,
+    text-decoration-color 0.15s ease;
+}
+
+a:hover {
+  color: color-mix(in srgb, var(--accent) 85%, #fff);
+  text-decoration-color: currentColor;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--text);
+}
+
+/* 드로어가 열렸을 때 배경 스크롤을 막기 위한 유틸리티 (JS에서 body에 토글) */
+body.is-drawer-open {
+  overflow: hidden;
+}
+
+/* =========================================================
+ * 앱 셸 / 본문 열 (모바일 기본)
+ * - 사이드바 폭은 토큰에서 관리하므로 margin-left만 토큰을 참조.
+ * - 모바일에서는 고정 푸터가 있으므로 본문 하단 패딩을 확보.
+ * ========================================================= */
+.app-shell {
+  min-height: 100vh;
+}
+
+.content-column {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-bottom: calc(var(--footer-h) + env(safe-area-inset-bottom, 0px));
+  background: radial-gradient(
+    120% 80% at 100% 0%,
+    color-mix(in srgb, var(--primary) 18%, transparent) 0%,
+    transparent 55%
+  );
+}
+
+/* =========================================================
+ * 헤더 (sticky, 반투명 + 블러)
+ * ========================================================= */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-header);
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  padding: 0 var(--gutter);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-inner {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.site-title {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.site-title span {
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.site-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-title-link:hover {
+  color: inherit;
+}
+
+.header-tag {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* 햄버거 버튼 (모바일 전용 노출; 태블릿 이상에서 숨김) */
+.menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: color-mix(in srgb, var(--surface-elevated) 60%, transparent);
+  color: var(--text);
+  cursor: pointer;
+  padding: 0;
+}
+
+.menu-toggle:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+}
+
+.menu-toggle svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  display: block;
+}
+
+/* =========================================================
+ * 본문 기둥
+ * ========================================================= */
+.main-content {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: clamp(1.5rem, 4vw, 2.75rem) var(--gutter) clamp(2.5rem, 6vw, 4rem);
+}
+
+/* =========================================================
+ * 푸터
+ * - 모바일 기본값은 "하단 고정". 태블릿 이상에서 문서 흐름으로 복귀.
+ * ========================================================= */
+.site-footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-footer);
+  padding: 0.75rem var(--gutter)
+    calc(0.75rem + env(safe-area-inset-bottom, 0px));
+  border-top: 1px solid var(--border);
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: blur(10px);
+  color: var(--text-muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+ 
+/* =========================================================
+ * 사이드바 (데스크톱 전용 레일)
+ * - 모바일에서는 숨기고, 대신 MobileNav(상단 드롭다운)를 사용합니다.
+ * - ≥768px 미디어쿼리에서 `display: flex`로 켜집니다.
+ * ========================================================= */
+.sidebar {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--sidebar-w);
+  height: 100vh;
+  padding: 1.75rem 1.25rem calc(1.75rem + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(
+    165deg,
+    color-mix(in srgb, var(--primary) 92%, #000) 0%,
+    var(--primary) 45%,
+    color-mix(in srgb, var(--primary) 75%, var(--bg)) 100%
+  );
+  color: var(--text);
+  border-right: 1px solid var(--border);
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+  overflow-y: auto;
+  z-index: var(--z-header);
+}
+
+/* =========================================================
+ * 모바일 상단 드롭다운 내비게이션
+ * - 헤더 바로 아래에 얹히는 고정 레이어.
+ * - 닫힘 상태에서는 panel을 `translateY(-100%)`로 올려 숨기고,
+ *   컨테이너에 `overflow: hidden`을 걸어 헤더 위로 새지 않게 합니다.
+ * - ≥768px에서는 `display: none`으로 꺼집니다.
+ * ========================================================= */
+.mobile-nav {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  z-index: var(--z-drawer);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* 패널 뒤 어두운 배경: 열렸을 때만 입력 수신 */
+.mobile-nav-backdrop {
+  position: fixed;
+  top: var(--header-h);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: color-mix(in srgb, #000 45%, transparent);
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.mobile-nav.is-open .mobile-nav-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* 실제 드롭다운 패널: 닫혔을 때는 위로 올려 숨김 */
+.mobile-nav-panel {
+  position: relative;
+  padding: 0.75rem var(--gutter) 1rem;
+  background: color-mix(in srgb, var(--bg) 92%, var(--primary));
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  transform: translateY(-100%);
+  transition: transform 0.22s ease;
+  max-height: calc(100vh - var(--header-h));
+  overflow-y: auto;
+  pointer-events: auto;
+}
+
+.mobile-nav.is-open .mobile-nav-panel {
+  transform: translateY(0);
+}
+
+.sidebar-brand {
+  align-self: stretch;
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text) 55%, var(--primary));
+}
+
+.nav-block {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.nav-block a {
+  display: block;
+  padding: 0.45rem 0.65rem;
+  border-radius: 8px;
+  color: color-mix(in srgb, var(--text) 92%, var(--accent));
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+
+.nav-block a:hover {
+  background: color-mix(in srgb, #fff 8%, transparent);
+  color: var(--text);
+}
+
+.nav-block a.is-active {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--text);
+  font-weight: 500;
+}
+
+/* =========================================================
+ * 본문 타이포그래피 (Post 등)
+ * ========================================================= */
+.prose {
+  color: var(--text);
+}
+
+.prose h1,
+.prose h2,
+.prose h3 {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+}
+
+.prose h2 {
+  margin-top: 2rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--border);
+  color: color-mix(in srgb, var(--text) 95%, var(--accent));
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  padding: 0.12em 0.4em;
+  border-radius: 6px;
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+}
+
+.prose pre {
+  padding: 1rem 1.15rem;
+  border-radius: var(--radius);
+  background: var(--surface-elevated);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.prose blockquote {
+  margin: 1.25rem 0;
+  padding: 0.5rem 0 0.5rem 1rem;
+  border-left: 3px solid var(--accent);
+  color: var(--text-muted);
+}
+
+/* =========================================================
+ * 태블릿 (≥ 768px)
+ * - 사이드바가 상시 노출되기 시작. 드로어/오버레이/햄버거는 숨김.
+ * - 푸터는 문서 흐름으로 복귀.
+ * ========================================================= */
+@media (min-width: 768px) {
+  :root {
+    --sidebar-w: 220px;
+    --content-max: 44rem;
+  }
+
+  .content-column {
+    padding-bottom: 0;
+  }
+
+  /* 모바일 전용 UI(햄버거·상단 드롭다운)는 이 폭부터 숨김 */
+  .menu-toggle,
+  .mobile-nav {
+    display: none;
+  }
+
+  /* 사이드바를 고정 레일 형태로 노출 */
+  .sidebar {
+    display: flex;
+    width: var(--sidebar-w);
+    box-shadow: none;
+  }
+
+  /* 푸터: 문서 흐름으로 복귀 */
+  .site-footer {
+    position: static;
+    margin-top: auto;
+    padding: 1rem var(--gutter) 1.5rem;
+    background: transparent;
+    backdrop-filter: none;
+  }
+}
+
+/* =========================================================
+ * 데스크톱 (≥ 1024px)
+ * - 사이드바 폭을 원래대로 키우고, 본문 기둥도 넓힘.
+ * ========================================================= */
+@media (min-width: 1024px) {
+  :root {
+    --sidebar-w: 250px;
+    --content-max: 48rem;
+  }
+}

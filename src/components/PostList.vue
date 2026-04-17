@@ -1,70 +1,39 @@
 <script setup>
+// 포스트 카드 "그리드"만 담당하는 리스트 컴포넌트.
+// - 카드 한 장의 내부 구조/스타일은 Preview.vue 가 소유합니다.
 import { computed } from "vue";
 import { getAllPosts } from "@/lib/posts";
+import Preview from "@/components/Preview.vue";
 
 const posts = computed(() => getAllPosts());
-
-function excerpt(content, max = 160) {
-  const t = content.replace(/^---[\s\S]*?---\s*/, "").trim();
-  const plain = t.replace(/[#>*`_~\[\]()]/g, " ").replace(/\s+/g, " ");
-  return plain.length <= max ? plain : `${plain.slice(0, max)}…`;
-}
 </script>
 
 <template>
   <section class="post-list" aria-label="게시글 목록">
     <ul class="post-cards">
       <li v-for="p in posts" :key="p.slug">
-        <router-link :to="{ name: 'post', params: { slug: p.slug } }" class="card-link">
-          <span class="card-title">{{ p.title }}</span>
-          <span class="card-excerpt">{{ excerpt(p.content) }}</span>
-        </router-link>
+        <Preview :post="p" />
       </li>
     </ul>
   </section>
 </template>
 
 <style scoped>
+/* 포스트 카드 그리드
+ * - auto-fill + minmax 로 컨테이너 폭에 따라 1~N 열이 자동 결정.
+ * - 카드 내부 레이아웃은 Preview.vue 에서 정의합니다.
+ * - 같은 행의 카드 높이를 맞추기 위해 `<li>`를 100% 높이로 늘리고,
+ *   Preview 루트가 그 높이를 이어받습니다. */
 .post-cards {
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(12rem, 1fr));
+  gap: 0.85rem;
 }
 
-.card-link {
-  display: block;
-  padding: 1rem 1.15rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  background: color-mix(in srgb, var(--surface-elevated) 40%, transparent);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    border-color 0.15s ease,
-    background 0.15s ease;
-}
-
-.card-link:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-  background: color-mix(in srgb, var(--accent) 8%, var(--surface-elevated));
-}
-
-.card-title {
-  display: block;
-  font-weight: 600;
-  font-size: 1.02rem;
-  letter-spacing: -0.02em;
-  color: var(--text);
-  margin-bottom: 0.35rem;
-}
-
-.card-excerpt {
-  display: block;
-  font-size: 0.88rem;
-  line-height: 1.5;
-  color: var(--text-muted);
+.post-cards > li {
+  height: 100%;
 }
 </style>

@@ -119,3 +119,39 @@ export function getPostBySlug(slug) {
   if (!slug) return null;
   return bySlug.get(slug) ?? null;
 }
+
+/**
+ * 마크다운/HTML 이 섞인 본문에서 카드 미리보기용 "평문"을 뽑아냅니다.
+ * 코드 블록, HTML 태그, 이미지 마크다운, 링크 마크다운, kramdown 속성({: ...}) 등을
+ * 순차적으로 제거·치환해 읽기 좋은 한 줄 텍스트를 만듭니다.
+ */
+export function toPlainPreview(content, maxLen = 160) {
+  if (typeof content !== "string" || !content) return "";
+
+  const plain = content
+    // 펜스드 코드 블록 ```...``` 과 들여쓰기 코드 블록은 전부 제거
+    .replace(/```[\s\S]*?```/g, " ")
+    .replace(/~~~[\s\S]*?~~~/g, " ")
+    // HTML 주석, 스크립트/스타일 등 블록 제거
+    .replace(/<!--[\s\S]*?-->/g, " ")
+    .replace(/<(script|style)[\s\S]*?<\/\1>/gi, " ")
+    // 이미지 마크다운 `![alt](url)` 은 통째로 제거
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, " ")
+    // 링크 마크다운 `[text](url)` → `text` 만 남김
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1")
+    // 남은 HTML 태그는 제거
+    .replace(/<[^>]+>/g, " ")
+    // kramdown 속성 블록 `{: ... }` 제거
+    .replace(/\{:[^}]*\}/g, " ")
+    // 인라인 코드 `…` 는 백틱만 제거하고 내용 유지
+    .replace(/`([^`]*)`/g, "$1")
+    // 헤딩/블록 인용/리스트 기호, 강조 기호 등을 공백으로
+    .replace(/^[ \t]*[#>*+-]+\s*/gm, " ")
+    .replace(/[*_~]+/g, " ")
+    // 연속 공백/개행 하나로
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (plain.length <= maxLen) return plain;
+  return `${plain.slice(0, maxLen)}…`;
+}

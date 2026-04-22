@@ -6,7 +6,7 @@
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import BlogIntro from "@/components/BlogIntro.vue";
-import { getPostBySlug } from "@/lib/posts";
+import { formatCategoryQueryLabel, getPostBySlug } from "@/lib/posts";
 import { useDrawer } from "@/lib/drawer";
 
 const { isOpen, toggle } = useDrawer();
@@ -22,11 +22,7 @@ const mobileContextLabel = computed(() => {
     const raw = route.query.category;
     const v = Array.isArray(raw) ? raw[0] : raw;
     if (v == null || String(v).trim() === "") return "홈";
-    try {
-      return decodeURIComponent(String(v)).trim();
-    } catch {
-      return String(v).trim();
-    }
+    return formatCategoryQueryLabel(v) || String(v).trim();
   }
   if (route.name === "post") {
     const slug = route.params.slug;

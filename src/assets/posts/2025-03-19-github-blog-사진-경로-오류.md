@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Github 블로그] 사진 경로 설정하는 법"
+title: "사진 경로 설정하는 법"
 categories: [Github 블로그]
 tags: [GitHub, Blog, 오류 해결]
 date: 2025-03-19 21:00:00 +0900

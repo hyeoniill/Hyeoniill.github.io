@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "[KB IT's Your Life] 발대식 참석 후기"
-categories: [KB IT's Your Life, 일상]
+title: "발대식 참석 후기"
+categories: [일상, KB IT's Your Life]
 tags: [KB, IT's Your Life, 부트캠프, 발대식]
 date: 2026-03-05 17:00:00 +0900
 last_modified_at: 2026-03-05

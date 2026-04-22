@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[블록체인] 노드 연결 - Sepolia 테스트넷"
+title: "노드 연결 - Sepolia 테스트넷"
 categories: [블록체인]
 tags: [블록체인, blockchain, Sepolia, 이더리움, testnet]
 date: 2025-05-27 17:30:00 +0900

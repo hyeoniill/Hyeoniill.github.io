@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "[JAVA] 다형성[Polymorphism]"
-categories: [JAVA]
+title: "다형성[Polymorphism]"
+categories: [백엔드, 자바]
 tags: [JAVA, 다형성, Polymorphism, OOP, 객체지향, 공변 반환, 오버로딩, 오버라이딩]
 date: 2025-07-18 10:00:00 +0900
 last_modified_at: 2025-07-18

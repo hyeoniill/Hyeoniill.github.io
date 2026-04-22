@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[Github 블로그] Chirpy 테마 Actions 빌드 오류: Can't find stylesheet to import 해결"
+title: "Chirpy 테마 Actions 빌드 오류: Can't find stylesheet to import 해결"
 categories: [Github 블로그]
 tags: [GitHub, Blog, Jekyll, Chirpy, 오류 해결]
 date: 2025-03-11 22:30:00 +0900

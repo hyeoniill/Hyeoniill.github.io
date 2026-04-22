@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "[자바스크립트] 함수 실행 프로세스 정리"
+title: "함수 실행 프로세스 정리"
 categories: [프론트엔드, 자바스크립트]
 tags:
   - JavaScript

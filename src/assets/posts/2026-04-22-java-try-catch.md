@@ -1,8 +1,8 @@
 ---
 layout: post
-title: "[JAVA] 예외처리"
-categories: [자바]
-tags: [ 예외처리, 에러, Exceiption, Error]
+title: " 예외처리"
+categories: [백엔드, 자바]
+tags: [예외처리, 에러, Exceiption, Error]
 date: 2026-04-22 09:00:00 +0900
 last_modified_at: 2026-04-22
 ---

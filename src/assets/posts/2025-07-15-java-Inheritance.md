@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "[JAVA] 상속[Inheritance]"
-categories: [JAVA]
+title: "상속[Inheritance]"
+categories: [백엔드, 자바]
 tags: [JAVA, 상속, Inheritance, OOP, 객체지향]
 date: 2025-07-15 19:00:00 +0900
 last_modified_at: 2025-07-15

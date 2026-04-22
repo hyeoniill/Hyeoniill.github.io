@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "[Github 블로그] 구글 애널리틱스 등록하기"
-categories: [Github 블로그,]
+title: "구글 애널리틱스 등록하기"
+categories: [Github 블로그]
 tags: [Google Analytics, 방문자 분석, 블로그 통계, 설정 방법]
 date: 2025-04-06 21:00:00 +0900
 last_modified_at: 2025-04-06

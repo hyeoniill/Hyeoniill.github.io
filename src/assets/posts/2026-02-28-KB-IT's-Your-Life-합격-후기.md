@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "[KB IT's Your Life 7기] 합격 후기"
-categories: [KB IT's Your Life, 일상]
+title: "합격 후기"
+categories: [일상, KB IT's Your Life]
 tags: [KB, IT's Your Life, 부트캠프]
 date: 2026-02-28 17:00:00 +0900
 last_modified_at: 2026-03-05

@@ -5,7 +5,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 import CategoryList from "@/components/CategoryList.vue";
-import { SIDEBAR_CATEGORIES } from "@/lib/navCategories";
+import { getCategoryNavItems } from "@/lib/posts";
 
 // 활성 상태 판별은 수동으로 계산합니다.
 // router-link의 기본 `active-class`는 "경로(path)"만 비교하기 때문에,
@@ -25,6 +25,7 @@ const currentCategory = computed(() => {
 const isHomeActive = computed(
   () => route.path === "/" && currentCategory.value === "",
 );
+const categoryItems = getCategoryNavItems();
 
 </script>
 
@@ -40,7 +41,7 @@ const isHomeActive = computed(
     </nav>
 
     <!-- 다른 곳에서 쓸 때는 title·items만 바꿔 `<CategoryList />`에 넘기면 됩니다. -->
-    <CategoryList title="카테고리" :items="SIDEBAR_CATEGORIES" />
+    <CategoryList title="카테고리" :items="categoryItems" />
   </div>
 </template>
 

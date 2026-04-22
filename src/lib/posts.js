@@ -113,17 +113,36 @@ function parseSortDate(data, slug) {
   return 0;
 }
 
+function normalizeCategoryName(value) {
+  if (value == null) return "";
+  return String(value).trim().replace(/,+$/g, "").trim();
+}
+
+function extractCategories(data) {
+  if (!Array.isArray(data?.categories)) return [];
+  return data.categories.map(normalizeCategoryName).filter(Boolean);
+}
+
 function normalizePost(filePath, raw) {
   const slug = pathToSlug(filePath);
   const { data, content } = splitFrontmatter(raw);
-  const title =
+  const categories = extractCategories(data);
+  const baseTitle =
     typeof data.title === "string" && data.title.trim()
       ? data.title.trim()
       : slug;
+  const titleWithoutPrefix = baseTitle.replace(/^\[[^\]]+\]\s*/, "").trim();
+  const firstCategory = categories[0] ?? "";
+  const title = firstCategory
+    ? `[${firstCategory}] ${titleWithoutPrefix || baseTitle}`
+    : baseTitle;
   return {
     slug,
     title,
-    data,
+    data: {
+      ...data,
+      categories,
+    },
     content: rewritePostContent(content),
     sortTime: parseSortDate(data, slug),
   };
@@ -137,6 +156,49 @@ allPosts.sort((a, b) => b.sortTime - a.sortTime);
 
 const bySlug = new Map(allPosts.map((p) => [p.slug, p]));
 
+const CATEGORY_QUERY_DELIMITER = "::";
+
+function dedupe(list) {
+  return Array.from(new Set(list));
+}
+
+function parseCategoryQuery(raw) {
+  const value = normalizeCategoryName(raw);
+  if (!value) return { parent: "", subcategory: "" };
+  const [parent, subcategory = ""] = value.split(CATEGORY_QUERY_DELIMITER);
+  return {
+    parent: normalizeCategoryName(parent),
+    subcategory: normalizeCategoryName(subcategory),
+  };
+}
+
+function makeCategoryQuery(parent, subcategory = "") {
+  const p = normalizeCategoryName(parent);
+  const s = normalizeCategoryName(subcategory);
+  if (!p) return "";
+  return s ? `${p}${CATEGORY_QUERY_DELIMITER}${s}` : p;
+}
+
+const categoryNavItems = (() => {
+  const byParent = new Map();
+
+  for (const post of allPosts) {
+    const [parent, subcategory] = extractCategories(post.data);
+    if (!parent) continue;
+    if (!byParent.has(parent)) byParent.set(parent, new Set());
+    if (subcategory) byParent.get(parent).add(subcategory);
+  }
+
+  return Array.from(byParent.entries()).map(([parent, children]) => ({
+    label: parent,
+    query: makeCategoryQuery(parent),
+    children: dedupe(Array.from(children)).map((subcategory) => ({
+      label: subcategory,
+      query: makeCategoryQuery(parent, subcategory),
+    })),
+  }));
+})();
+
 export function getAllPosts() {
   return allPosts;
 }
@@ -144,6 +206,25 @@ export function getAllPosts() {
 export function getPostBySlug(slug) {
   if (!slug) return null;
   return bySlug.get(slug) ?? null;
+}
+
+export function getCategoryNavItems() {
+  return categoryNavItems;
+}
+
+export function formatCategoryQueryLabel(raw) {
+  const { parent, subcategory } = parseCategoryQuery(raw);
+  if (!parent) return "";
+  return subcategory ? `${parent} > ${subcategory}` : parent;
+}
+
+export function postMatchesCategoryQuery(post, rawQuery) {
+  const { parent, subcategory } = parseCategoryQuery(rawQuery);
+  if (!parent) return true;
+  const [postParent, postSubcategory = ""] = extractCategories(post.data);
+  if (postParent !== parent) return false;
+  if (!subcategory) return true;
+  return postSubcategory === subcategory;
 }
 
 /**

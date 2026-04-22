@@ -2,12 +2,16 @@
 // 포스트 카드 "그리드"만 담당하는 리스트 컴포넌트.
 // - 카드 한 장의 내부 구조/스타일은 Preview.vue 가 소유합니다.
 // - `?q=` 검색: 제목/태그/본문
-// - `?category=` 내비와 동일 값 → frontmatter `categories` 와 `@/lib/navCategories` 매핑으로 필터
+// - `?category=` 필터: frontmatter `categories`의 1번째(상위)·2번째(하위) 값을 기준으로 필터
 // - `?page=` 페이지네이션 (1-based). 한 페이지 = 그리드 **4줄** 분량(열 수는 컨테이너 폭에 따라 자동).
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import { CATEGORY_QUERY_TO_LABELS } from "@/lib/navCategories";
-import { getAllPosts, toPlainPreview } from "@/lib/posts";
+import {
+  formatCategoryQueryLabel,
+  getAllPosts,
+  postMatchesCategoryQuery,
+  toPlainPreview,
+} from "@/lib/posts";
 import Preview from "@/components/Preview.vue";
 
 /** `.post-cards` 의 `minmax(…rem, 1fr)` / `gap` 과 반드시 동일해야 열 수가 맞습니다. */
@@ -72,16 +76,7 @@ const categoryQuery = computed(() => {
 });
 
 function postMatchesCategory(post, queryKey) {
-  if (!queryKey) return true;
-  const cats = Array.isArray(post.data?.categories)
-    ? post.data.categories.map((c) => String(c).trim()).filter(Boolean)
-    : [];
-  if (!cats.length) return false;
-  const labels = CATEGORY_QUERY_TO_LABELS[queryKey] ?? [queryKey];
-  const lower = (s) => s.toLowerCase();
-  return cats.some((c) =>
-    labels.some((l) => lower(c) === lower(String(l).trim())),
-  );
+  return postMatchesCategoryQuery(post, queryKey);
 }
 
 function postMatchesSearch(post, needle) {
@@ -211,6 +206,8 @@ watch(
 const showEmptyMessage = computed(
   () => posts.value.length === 0 && (Boolean(searchQuery.value) || Boolean(categoryQuery.value)),
 );
+
+const categoryLabel = computed(() => formatCategoryQueryLabel(categoryQuery.value));
 </script>
 
 <template>
@@ -220,7 +217,7 @@ const showEmptyMessage = computed(
         "<strong>{{ searchQuery }}</strong>"에 해당하는 글이 없습니다.
       </template>
       <template v-else>
-        "<strong>{{ categoryQuery }}</strong>" 카테고리에 해당하는 글이 없습니다.
+        "<strong>{{ categoryLabel }}</strong>" 카테고리에 해당하는 글이 없습니다.
       </template>
     </p>
     <template v-else>

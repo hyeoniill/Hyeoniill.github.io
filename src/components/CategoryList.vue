@@ -28,18 +28,30 @@ const currentCategory = computed(() => {
 
 function normalizeItem(raw) {
   if (typeof raw === "string") {
-    return { label: raw, query: raw };
+    return { label: raw, query: raw, children: [] };
   }
   if (raw && typeof raw === "object") {
     const label = raw.label ?? raw.name ?? "";
     const query = raw.query ?? raw.category ?? label;
-    return { label, query };
+    const children = Array.isArray(raw.children)
+      ? raw.children.map((child) => normalizeItem(child)).filter((child) => child.query)
+      : [];
+    return { label, query, children };
   }
-  return { label: "", query: "" };
+  return { label: "", query: "", children: [] };
 }
 
+const normalizedItems = computed(() =>
+  props.items.map((raw) => normalizeItem(raw)).filter((item) => item.query),
+);
+
 function isActive(query) {
-  return currentCategory.value === query;
+  return currentCategory.value === String(query);
+}
+
+function isParentActive(item) {
+  if (!item.children.length) return false;
+  return item.children.some((child) => isActive(child.query));
 }
 </script>
 
@@ -47,14 +59,24 @@ function isActive(query) {
   <section class="category-list" aria-label="카테고리 목록">
     <h2 class="category-list__title">{{ title }}</h2>
     <nav class="nav-block">
-      <router-link
-        v-for="raw in items"
-        :key="normalizeItem(raw).query"
-        :to="{ path: '/', query: { category: normalizeItem(raw).query } }"
-        :class="{ 'is-active': isActive(normalizeItem(raw).query) }"
-      >
-        {{ normalizeItem(raw).label }}
-      </router-link>
+      <template v-for="item in normalizedItems" :key="item.query">
+        <router-link
+          :to="{ path: '/', query: { category: item.query } }"
+          :class="{ 'is-active': isActive(item.query), 'is-parent-active': isParentActive(item) }"
+        >
+          {{ item.label }}
+        </router-link>
+        <div v-if="item.children.length" class="category-sub-list">
+          <router-link
+            v-for="child in item.children"
+            :key="child.query"
+            :to="{ path: '/', query: { category: child.query } }"
+            :class="{ 'is-active': isActive(child.query) }"
+          >
+            {{ child.label }}
+          </router-link>
+        </div>
+      </template>
     </nav>
   </section>
 </template>
@@ -72,5 +94,23 @@ function isActive(query) {
   text-transform: uppercase;
   color: color-mix(in srgb, var(--text) 55%, var(--primary));
   text-align: left;
+}
+
+.category-sub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  padding-left: 0.85rem;
+  margin-top: 0.15rem;
+}
+
+.category-sub-list a {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--text) 86%, var(--primary));
+}
+
+.nav-block :deep(a.is-parent-active:not(.is-active)) {
+  background: color-mix(in srgb, var(--accent) 11%, transparent);
+  color: color-mix(in srgb, var(--text) 94%, var(--accent));
 }
 </style>

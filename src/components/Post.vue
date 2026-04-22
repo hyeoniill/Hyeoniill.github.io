@@ -13,6 +13,8 @@ import bash from "highlight.js/lib/languages/bash";
 import sql from "highlight.js/lib/languages/sql";
 import { getPostBySlug } from "@/lib/posts";
 import PostHeader from "@/components/PostHeader.vue";
+import GiscusComments from "@/components/GiscusComments.vue";
+import PostAdjacentNav from "@/components/PostAdjacentNav.vue";
 
 const MARKED_CONFIG_KEY = "__hyeoniill_marked_highlight_configured__";
 
@@ -105,17 +107,24 @@ const metaLine = computed(() => {
       <ul v-if="Array.isArray(post.data.tags) && post.data.tags.length" class="post-tags">
         <li v-for="tag in post.data.tags" :key="tag">{{ tag }}</li>
       </ul>
+      <PostAdjacentNav :slug="post.slug" />
+      <GiscusComments :term="post.slug" />
     </footer>
   </article>
   <p v-else class="post-missing">이 글을 찾을 수 없습니다.</p>
 </template>
 
 <style scoped>
+/* 포스트 하단 태그 영역 마진 조정 */
+.post-footer {
+  margin-top: clamp(10em, 3vw, 1.9rem);
+}
+
 .post-tags {
   display: flex;
   flex-wrap: wrap;
   gap: 0.35rem 0.5rem;
-  margin: 0.85rem 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
 }

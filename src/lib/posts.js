@@ -1,7 +1,7 @@
 import yaml from "js-yaml";
 
 /** Rolldown/Vite 8에서는 `as: "raw"` 대신 `?raw`가 안전합니다. */
-const rawModules = import.meta.glob("../assets/posts/*.md", {
+const rawModules = import.meta.glob("../assets/posts/**/*.md", {
   eager: true,
   query: "?raw",
   import: "default",
@@ -132,9 +132,9 @@ function normalizePost(filePath, raw) {
       ? data.title.trim()
       : slug;
   const titleWithoutPrefix = baseTitle.replace(/^\[[^\]]+\]\s*/, "").trim();
-  const firstCategory = categories[0] ?? "";
-  const title = firstCategory
-    ? `[${firstCategory}] ${titleWithoutPrefix || baseTitle}`
+  const titleCategory = categories[categories.length - 1] ?? "";
+  const title = titleCategory
+    ? `[${titleCategory}] ${titleWithoutPrefix || baseTitle}`
     : baseTitle;
   return {
     slug,
@@ -206,6 +206,46 @@ export function getAllPosts() {
 export function getPostBySlug(slug) {
   if (!slug) return null;
   return bySlug.get(slug) ?? null;
+}
+
+export function getAdjacentPosts(slug) {
+  if (!slug) return { previous: null, next: null };
+  const idx = allPosts.findIndex((p) => p.slug === slug);
+  if (idx === -1) return { previous: null, next: null };
+  const current = allPosts[idx];
+  const currentCategories = extractCategories(current.data);
+  const currentSubcategory = currentCategories[currentCategories.length - 1] ?? "";
+
+  function sameSubcategory(post) {
+    const cats = extractCategories(post.data);
+    const sub = cats[cats.length - 1] ?? "";
+    return sub !== "" && sub === currentSubcategory;
+  }
+
+  // allPosts는 최신순 정렬입니다.
+  // 같은 서브카테고리 안에서만 인접 글을 찾습니다.
+  // previous: 현재 글보다 더 예전 글(목록에서 아래)
+  // next: 현재 글보다 더 최신 글(목록에서 위)
+  let previous = null;
+  for (let i = idx + 1; i < allPosts.length; i += 1) {
+    if (sameSubcategory(allPosts[i])) {
+      previous = allPosts[i];
+      break;
+    }
+  }
+
+  let next = null;
+  for (let i = idx - 1; i >= 0; i -= 1) {
+    if (sameSubcategory(allPosts[i])) {
+      next = allPosts[i];
+      break;
+    }
+  }
+
+  return {
+    previous,
+    next,
+  };
 }
 
 export function getCategoryNavItems() {

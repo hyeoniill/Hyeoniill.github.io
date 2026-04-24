@@ -4,7 +4,7 @@
 // - 렌더링은 전역 `.nav-block` 스타일을 재사용하므로 별도 스타일은 거의 없습니다.
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import CategoryList from "@/components/CategoryList.vue";
+import CategoryList from "./CategoryList.vue";
 import { getCategoryNavItems } from "@/lib/posts";
 
 // 활성 상태 판별은 수동으로 계산합니다.
@@ -39,8 +39,6 @@ const categoryItems = getCategoryNavItems();
     <nav class="nav-block" aria-label="주요 메뉴">
       <router-link to="/" :class="{ 'is-active': isHomeActive }">홈</router-link>
     </nav>
-
-    <!-- 다른 곳에서 쓸 때는 title·items만 바꿔 `<CategoryList />`에 넘기면 됩니다. -->
     <CategoryList title="카테고리" :items="categoryItems" />
   </div>
 </template>

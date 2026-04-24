@@ -5,7 +5,8 @@
 // - 패널 밖 영역(backdrop)을 누르거나, 라우트가 바뀌거나, Esc를 누르면 닫힙니다.
 import { onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
-import NavMenu from "@/components/NavMenu.vue";
+import NavMenu from "./NavMenu.vue";
+import SocialNav from "./SocialNav.vue";
 import { useDrawer } from "@/lib/drawer";
 
 // 공용 여닫기 상태. `isOpen`을 DOM 클래스에 반영하고, 닫기 핸들러도 공용 함수를 사용합니다.
@@ -46,6 +47,17 @@ onUnmounted(() => window.removeEventListener("keydown", onKeydown));
       aria-label="모바일 네비게이션"
     >
       <NavMenu />
+      <div class="mobile-nav-social">
+        <SocialNav />
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.mobile-nav-social {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid color-mix(in srgb, var(--border) 80%, transparent);
+}
+</style>

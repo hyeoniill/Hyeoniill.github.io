@@ -1,8 +1,9 @@
 <script setup>
 // 데스크톱(≥768px) 전용 사이드바 레일.
-// - 모바일 드로어/오버레이 로직은 모두 MobileNav.vue로 이전했습니다.
+// - 모바일 드로어/오버레이 로직은 `navigation/MobileNav.vue`에 있습니다.
 // - 브랜드 라벨 + 프로필 + 공용 NavMenu만 배치하는 "순수한 레일"입니다.
-import NavMenu from "@/components/NavMenu.vue";
+import NavMenu from "@/components/navigation/NavMenu.vue";
+import SocialNav from "@/components/navigation/SocialNav.vue";
 </script>
 
 <template>
@@ -12,6 +13,9 @@ import NavMenu from "@/components/NavMenu.vue";
       <img src="@/assets/img/profile.jpeg" alt="프로필" />
     </div>
     <NavMenu />
+    <div class="sidebar-social-wrap">
+      <SocialNav />
+    </div>
   </aside>
 </template>
 
@@ -32,5 +36,12 @@ import NavMenu from "@/components/NavMenu.vue";
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* 카테고리 메뉴 아래 빈 공간을 채우고 GitHub를 레일 최하단에 고정 */
+.sidebar-social-wrap {
+  margin-top: auto;
+  width: 100%;
+  align-self: stretch;
 }
 </style>

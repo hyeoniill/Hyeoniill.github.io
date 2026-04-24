@@ -12,7 +12,7 @@ import {
   postMatchesCategoryQuery,
   toPlainPreview,
 } from "@/lib/posts";
-import Preview from "@/components/Preview.vue";
+import Preview from "./Preview.vue";
 
 /** `.post-cards` 의 `minmax(…rem, 1fr)` / `gap` 과 반드시 동일해야 열 수가 맞습니다. */
 const GRID_MIN_COL_REM = 12;

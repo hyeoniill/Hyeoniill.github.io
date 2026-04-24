@@ -13,9 +13,9 @@ import bash from "highlight.js/lib/languages/bash";
 import sql from "highlight.js/lib/languages/sql";
 import { getPostBySlug } from "@/lib/posts";
 import { resolveCategoryHeroBgUrl } from "@/lib/categoryHeroBg";
-import PostHeader from "@/components/PostHeader.vue";
-import GiscusComments from "@/components/GiscusComments.vue";
-import PostAdjacentNav from "@/components/PostAdjacentNav.vue";
+import PostHeader from "./PostHeader.vue";
+import GiscusComments from "./GiscusComments.vue";
+import PostAdjacentNav from "./PostAdjacentNav.vue";
 
 const MARKED_CONFIG_KEY = "__hyeoniill_marked_highlight_configured__";
 

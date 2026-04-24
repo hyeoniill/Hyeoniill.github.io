@@ -5,7 +5,7 @@
 // - 모바일: 기본은 돋보기 아이콘만 보이고, 아이콘을 누르면 헤더가 검색 모드로 바뀌어 입력창이 펼쳐집니다.
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import BlogIntro from "@/components/BlogIntro.vue";
+import BlogIntro from "./BlogIntro.vue";
 import { formatCategoryQueryLabel, getPostBySlug } from "@/lib/posts";
 import { useDrawer } from "@/lib/drawer";
 

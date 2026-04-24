@@ -4,10 +4,10 @@
 // - 태블릿/데스크톱: `Sidebar`(고정 레일)가 상시 노출되고, MobileNav/햄버거는 CSS로 숨겨집니다.
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import Header from "./components/Header.vue";
-import Footer from "./components/Footer.vue";
-import Sidebar from "./components/Sidebar.vue";
-import MobileNav from "./components/MobileNav.vue";
+import Header from "@/components/layout/Header.vue";
+import Footer from "@/components/layout/Footer.vue";
+import Sidebar from "@/components/layout/Sidebar.vue";
+import MobileNav from "@/components/navigation/MobileNav.vue";
 
 const route = useRoute();
 const isHomePage = computed(() => route.name === "home");

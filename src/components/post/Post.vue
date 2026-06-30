@@ -114,7 +114,12 @@ useHead(() => {
     : "요청한 글을 찾을 수 없습니다.";
   const canonical = absolutePageUrl(`/posts/${props.slug}`);
   const hero = postHeroBgUrl.value;
-  const ogImage = hero ? absoluteAssetUrl(hero) : "";
+  const ogImage = hero
+    ? absoluteAssetUrl(hero)
+    : absolutePageUrl("/og-default.png");
+
+  const publishedDate = p ? parsePostDate(p.data.date) : null;
+  const modifiedDate = p ? parsePostDate(p.data.last_modified_at ?? p.data.date) : null;
 
   const meta = [
     { name: "description", content: desc },
@@ -122,18 +127,20 @@ useHead(() => {
     { property: "og:description", content: desc },
     { property: "og:url", content: canonical },
     { property: "og:type", content: p ? "article" : "website" },
+    { property: "og:image", content: ogImage },
     {
       name: "twitter:card",
-      content: ogImage ? "summary_large_image" : "summary",
+      content: "summary_large_image",
     },
     { name: "twitter:title", content: titleStr },
     { name: "twitter:description", content: desc },
+    { name: "twitter:image", content: ogImage },
   ];
-  if (ogImage) {
-    meta.push(
-      { property: "og:image", content: ogImage },
-      { name: "twitter:image", content: ogImage },
-    );
+  if (p && publishedDate) {
+    meta.push({ property: "article:published_time", content: publishedDate.toISOString() });
+  }
+  if (p && modifiedDate) {
+    meta.push({ property: "article:modified_time", content: modifiedDate.toISOString() });
   }
 
   return {

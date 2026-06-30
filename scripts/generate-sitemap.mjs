@@ -2,7 +2,7 @@
  * `dist/sitemap.xml` 생성. `vite build` 직후 `postbuild`에서 실행합니다.
  * 환경변수: `VITE_SITE_ORIGIN`, `VITE_BASE_PATH` (GitHub Actions와 동일)
  */
-import { existsSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -23,6 +23,23 @@ function siteUrl(path) {
   const p = path.startsWith("/") ? path : `/${path}`;
   if (!baseNorm) return `${SITE}${p}`;
   return `${SITE}${baseNorm}${p}`;
+}
+
+function extractFrontmatterDate(filePath) {
+  try {
+    const content = readFileSync(filePath, "utf8");
+    const match = content.match(/^---[\s\S]*?^---/m);
+    if (!match) return null;
+    const fm = match[0];
+    const dateMatch = fm.match(/^last_modified_at:\s*(.+)$/m) || fm.match(/^date:\s*(.+)$/m);
+    if (!dateMatch) return null;
+    const raw = dateMatch[1].trim().replace(/^['"]|['"]$/g, "");
+    const normalized = raw.replace(/^(\d{4}-\d{2}-\d{2})\s+/, "$1T").replace(/([+-]\d{2})(\d{2})$/, "$1:$2");
+    const d = new Date(normalized);
+    return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+  } catch {
+    return null;
+  }
 }
 
 function walkMdFiles(dir, acc = []) {
@@ -53,21 +70,20 @@ const urls = [{ loc: siteUrl("/"), changefreq: "weekly", priority: "1.0" }];
 
 for (const file of files) {
   const slug = file.split("/").pop().replace(/\.md$/i, "");
+  const lastmod = extractFrontmatterDate(file);
   urls.push({
     loc: siteUrl(`/posts/${slug}`),
+    lastmod,
     changefreq: "monthly",
     priority: "0.8",
   });
 }
 
 const body = urls
-  .map(
-    (u) => `  <url>
-    <loc>${escapeXml(u.loc)}</loc>
-    <changefreq>${u.changefreq}</changefreq>
-    <priority>${u.priority}</priority>
-  </url>`,
-  )
+  .map((u) => {
+    const lastmodLine = u.lastmod ? `\n    <lastmod>${u.lastmod}</lastmod>` : "";
+    return `  <url>\n    <loc>${escapeXml(u.loc)}</loc>${lastmodLine}\n    <changefreq>${u.changefreq}</changefreq>\n    <priority>${u.priority}</priority>\n  </url>`;
+  })
   .join("\n");
 
 const xml = `<?xml version="1.0" encoding="UTF-8"?>

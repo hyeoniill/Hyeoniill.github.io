@@ -5,16 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite-ssg build",
     "postbuild": "node scripts/generate-sitemap.mjs && node scripts/spa-github-pages.mjs",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@unhead/vue": "^3.0.5",
+    "@unhead/vue": "^2.1.15",
     "highlight.js": "^11.11.1",
     "js-yaml": "^4.1.1",
     "marked": "^18.0.0",
     "marked-highlight": "^2.2.4",
+    "vite-ssg": "^28.3.0",
     "vue": "^3.5.32",
     "vue-router": "^5.0.4"
   },

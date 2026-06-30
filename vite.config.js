@@ -1,6 +1,7 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
 import path from "path";
+import { readdirSync, statSync } from "node:fs";
 
 /**
  * GitHub Pages 프로젝트 사이트: `https://<user>.github.io/<repo>/`
@@ -14,6 +15,23 @@ function appBase() {
   return withLeading.endsWith("/") ? withLeading : `${withLeading}/`;
 }
 
+function collectPostSlugs(dir) {
+  const slugs = [];
+  try {
+    for (const entry of readdirSync(dir)) {
+      const full = path.join(dir, entry);
+      if (statSync(full).isDirectory()) {
+        slugs.push(...collectPostSlugs(full));
+      } else if (entry.endsWith(".md")) {
+        slugs.push(entry.replace(/\.md$/i, ""));
+      }
+    }
+  } catch {
+    // 디렉토리가 없으면 그냥 넘김
+  }
+  return slugs;
+}
+
 // https://vite.dev/config/
 export default defineConfig({
   base: appBase(),
@@ -21,6 +39,18 @@ export default defineConfig({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  ssgOptions: {
+    includedRoutes(paths) {
+      const postsDir = path.resolve(__dirname, "src/assets/posts");
+      const slugs = collectPostSlugs(postsDir);
+      return paths.flatMap((p) => {
+        if (p === "/posts/:slug") {
+          return slugs.map((slug) => `/posts/${encodeURIComponent(slug)}`);
+        }
+        return [p];
+      });
     },
   },
 });

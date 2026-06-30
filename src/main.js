@@ -1,12 +1,10 @@
-import { createHead } from "@unhead/vue/client";
-import { createApp } from "vue";
+import { ViteSSG } from "vite-ssg";
 import "@/assets/style/main.css";
 import "highlight.js/styles/github-dark.css";
 import App from "./App.vue";
-import router from "./router/router.js";
+import { routes } from "./router/router.js";
 
-const app = createApp(App);
-const head = createHead();
-app.use(head);
-app.use(router);
-app.mount("#app");
+export const createApp = ViteSSG(
+  App,
+  { routes, base: import.meta.env.BASE_URL },
+);

@@ -1,29 +1,12 @@
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
+# Build output (deploy workflow에서만 생성)
+_site
 
-node_modules
-dist
-dist-ssr
-*.local
-
-# 환경 변수(비밀·로컬 전용). 예시만 커밋: .env.example
-.env
-.env.local
-.env.*.local
-
-# Editor directories and files
+# OS / Editor
+.DS_Store
+.idea
 .vscode/*
 !.vscode/extensions.json
-.idea
-.DS_Store
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
 *.sw?
+
+# Claude Code local config
+.claude/

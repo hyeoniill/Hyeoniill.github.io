@@ -1,21 +1,419 @@
 <!doctype html>
 <html lang="ko">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Hyeoniill 기술 블로그 — 백엔드, 프론트엔드, 알고리즘, 블록체인 등 학습 기록"
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Hyeoniill 블로그" />
-    <title>Hyeoniill 블로그</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>박종현 포트폴리오 — Backend Developer</title>
+  <meta name="description" content="충남대학교 컴퓨터융합학부 박종현의 포트폴리오. 서버 개발·데이터베이스 설계·API 구현을 중심으로 한 프로젝트와 자격, 활동을 정리했습니다." />
+  <link rel="canonical" href="https://hyeoniill.github.io/" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="박종현 포트폴리오" />
+  <meta property="og:title" content="박종현 포트폴리오 — Backend Developer" />
+  <meta property="og:description" content="서버 개발·데이터베이스 설계·API 구현을 중심으로 한 프로젝트와 자격, 활동." />
+  <meta property="og:url" content="https://hyeoniill.github.io/" />
+  <meta property="og:image" content="https://hyeoniill.github.io/og-default.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="박종현 포트폴리오 — Backend Developer" />
+  <meta name="twitter:description" content="서버 개발·데이터베이스 설계·API 구현을 중심으로 한 프로젝트와 자격, 활동." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #ffffff;
+      --paper: #ffffff;
+      --paper-elevated: #f6f4ef;
+      --primary: #24344a;   /* 직인 남색 */
+      --accent: #7a2e22;    /* 도장 붉은색 */
+      --sub: #8c8267;       /* 괘선 톤 */
+      --text: #262320;
+      --text-muted: #6b6459;
+      --border: #d8d3c6;
+      --radius: 2px;
+      --font-serif: "Noto Serif KR", Georgia, "Times New Roman", serif;
+      --font-sans: "Noto Sans KR", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, sans-serif;
+      --content-max: 52rem;
+      --gutter: clamp(1.1rem, 4vw, 2rem);
+    }
+
+    * , *::before, *::after { box-sizing: border-box; }
+
+    html { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-serif);
+      font-size: 1.02rem;
+      line-height: 1.75;
+    }
+
+    a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent); transition: color .15s ease, text-decoration-color .15s ease; }
+    a:hover { color: color-mix(in srgb, var(--accent) 78%, var(--text)); text-decoration-color: currentColor; }
+    ::selection { background: color-mix(in srgb, var(--accent) 22%, transparent); }
+
+    /* ── 상단 내비게이션 ───────────────────────────── */
+    .topbar {
+      position: sticky; top: 0; z-index: 20;
+      background: color-mix(in srgb, var(--paper) 92%, transparent);
+      backdrop-filter: blur(6px);
+      border-bottom: 1px solid var(--border);
+    }
+    .topbar__inner {
+      max-width: var(--content-max); margin: 0 auto;
+      padding: 0.7rem var(--gutter);
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+    .topbar__name { font-family: var(--font-sans); font-weight: 700; letter-spacing: 0.02em; font-size: 0.95rem; }
+    .topbar__name span { color: var(--accent); }
+    .topbar__nav { display: flex; flex-wrap: wrap; gap: 0.25rem 1rem; }
+    .topbar__nav a {
+      font-family: var(--font-sans); font-size: 0.8rem; letter-spacing: 0.04em;
+      color: var(--text-muted); text-decoration: none;
+    }
+    .topbar__nav a:hover { color: var(--text); }
+    @media (max-width: 640px) { .topbar__nav { display: none; } }
+
+    /* ── 레이아웃 ─────────────────────────────────── */
+    main { max-width: var(--content-max); margin: 0 auto; padding: 0 var(--gutter) 5rem; }
+    section { scroll-margin-top: 4.5rem; padding: 3rem 0; border-top: 1px solid var(--border); }
+    section:first-of-type { border-top: none; }
+
+    .eyebrow {
+      font-family: var(--font-sans); font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-muted);
+      margin: 0 0 0.6rem;
+    }
+    h1 { font-size: clamp(2rem, 6vw, 3rem); line-height: 1.2; margin: 0.2rem 0 0; letter-spacing: -0.01em; }
+    h1 .role { display: block; font-size: clamp(1rem, 3.5vw, 1.3rem); color: var(--primary); font-weight: 600; margin-top: 0.5rem; }
+    h2 {
+      font-family: var(--font-sans); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase; color: var(--text-muted);
+      margin: 0 0 1.4rem; padding-bottom: 0.6rem; border-bottom: 1px solid var(--border);
+    }
+    h3 { font-size: 1.15rem; margin: 0; letter-spacing: -0.01em; }
+
+    /* ── 히어로 ───────────────────────────────────── */
+    .hero { padding-top: 3.5rem; }
+    .tricolor { display: flex; height: 6px; max-width: 320px; margin: 0 0 1.8rem; }
+    .tricolor span { flex: 1; }
+    .tricolor span:nth-child(1) { background: #111; flex: 0 0 34%; }
+    .tricolor span:nth-child(2) { background: var(--primary); }
+    .tricolor span:nth-child(3) { background: var(--accent); flex: 0 0 20%; }
+    .hero__lead { margin: 1.6rem 0 0; max-width: 40rem; color: var(--text); }
+    .facts { list-style: none; margin: 1.8rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 0.6rem 2rem; }
+    .facts li { display: flex; flex-direction: column; padding-bottom: 0.6rem; border-bottom: 1px dashed var(--border); }
+    .facts .k { font-family: var(--font-sans); font-size: 0.68rem; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--text-muted); }
+    .facts .v { font-size: 0.95rem; }
+    @media (max-width: 560px) { .facts { grid-template-columns: 1fr; } }
+
+    /* ── 역량 태그 ────────────────────────────────── */
+    .skillgroup { margin-bottom: 1.4rem; }
+    .skillgroup__label { font-family: var(--font-sans); font-size: 0.78rem; font-weight: 700; letter-spacing: 0.05em; color: var(--primary); margin-bottom: 0.55rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .tags span {
+      font-family: var(--font-sans); font-size: 0.76rem; letter-spacing: 0.02em; line-height: 1;
+      padding: 0.36rem 0.6rem; border: 1px solid var(--border); color: var(--text-muted);
+      border-radius: var(--radius);
+    }
+    .note { font-family: var(--font-sans); font-size: 0.8rem; color: var(--text-muted); margin: 0.4rem 0 0; }
+
+    /* ── 자격 카드 ────────────────────────────────── */
+    .cards { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1rem; }
+    @media (max-width: 560px) { .cards { grid-template-columns: 1fr; } }
+    .card { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.1rem 1.2rem; background: var(--paper); }
+    .card__name { font-family: var(--font-sans); font-weight: 700; font-size: 0.98rem; }
+    .card__meta { font-family: var(--font-sans); font-size: 0.8rem; color: var(--text-muted); margin-top: 0.25rem; }
+    .card__big { font-size: 1.5rem; color: var(--primary); font-weight: 700; margin-top: 0.4rem; }
+
+    /* ── TOPCIT 세부 ──────────────────────────────── */
+    .topcit { margin-top: 1.6rem; }
+    .topcit__cap { font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-muted); margin-bottom: 0.8rem; }
+    .bar { display: grid; grid-template-columns: 8.5rem 1fr 3.2rem; align-items: center; gap: 0.6rem; margin-bottom: 0.5rem; font-family: var(--font-sans); font-size: 0.8rem; }
+    .bar__label { color: var(--text-muted); }
+    .bar__track { height: 9px; background: var(--paper-elevated); border: 1px solid var(--border); border-radius: 999px; overflow: hidden; }
+    .bar__fill { display: block; height: 100%; background: var(--primary); border-radius: 999px; }
+    .bar__val { text-align: right; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+    @media (max-width: 560px) { .bar { grid-template-columns: 6.5rem 1fr 3rem; } }
+
+    /* ── 프로젝트 ─────────────────────────────────── */
+    .project { border: 1px solid var(--border); border-radius: var(--radius); padding: 1.6rem 1.5rem; }
+    .project + .project { margin-top: 1.4rem; }
+    .project--featured { border-color: color-mix(in srgb, var(--primary) 40%, var(--border)); }
+    .project__head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.4rem 1rem; }
+    .project__meta { font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-muted); }
+    .project__summary { margin: 0.9rem 0 0; color: var(--text); }
+    .project h4 { font-family: var(--font-sans); font-size: 0.74rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); margin: 1.3rem 0 0.5rem; }
+    .project ul { margin: 0; padding-left: 1.15rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    .project li { line-height: 1.6; }
+    .contracts { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .contracts li { padding-left: 0; }
+    .contracts code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.82rem; color: var(--primary); background: var(--paper-elevated); padding: 0.1rem 0.35rem; border-radius: var(--radius); }
+    .stack { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1.3rem; }
+    .stack span { font-family: var(--font-sans); font-size: 0.72rem; letter-spacing: 0.02em; padding: 0.28rem 0.5rem; border: 1px solid var(--border); color: var(--text-muted); border-radius: var(--radius); }
+    .project__link { display: inline-block; margin-top: 1.1rem; font-family: var(--font-sans); font-size: 0.83rem; }
+    .award { display: inline-block; margin-top: 1rem; font-family: var(--font-sans); font-size: 0.76rem; font-weight: 700; letter-spacing: 0.04em; color: var(--accent); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--border)); padding: 0.3rem 0.55rem; border-radius: var(--radius); }
+
+    .coursework { list-style: none; padding: 0; margin: 1.6rem 0 0; }
+    .coursework li { display: flex; flex-wrap: wrap; gap: 0.2rem 0.7rem; align-items: baseline; justify-content: space-between; padding: 0.7rem 0; border-bottom: 1px dashed var(--border); }
+    .coursework .c-name { font-size: 0.95rem; }
+    .coursework .c-meta { font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-muted); }
+
+    /* ── 타임라인 ─────────────────────────────────── */
+    .timeline { list-style: none; padding: 0; margin: 0; }
+    .timeline li { padding: 1rem 0; border-bottom: 1px dashed var(--border); }
+    .timeline li:last-child { border-bottom: none; }
+    .timeline .t-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 0.3rem 1rem; }
+    .timeline .t-title { font-family: var(--font-sans); font-weight: 700; font-size: 0.95rem; }
+    .timeline .t-date { font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-muted); }
+    .timeline .t-desc { margin: 0.4rem 0 0; color: var(--text-muted); font-size: 0.95rem; }
+
+    .study { list-style: none; padding: 0; margin: 1.2rem 0 0; display: flex; flex-direction: column; gap: 0.5rem; }
+    .study li { display: flex; gap: 0.6rem; font-size: 0.95rem; }
+    .study li::before { content: "▪"; color: var(--sub); }
+
+    /* ── 연락 ─────────────────────────────────────── */
+    .contact p { margin: 0.3rem 0; font-family: var(--font-sans); }
+    .contact .label { display: inline-block; width: 5rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+    footer { max-width: var(--content-max); margin: 0 auto; padding: 2rem var(--gutter) 3rem; border-top: 1px solid var(--border); font-family: var(--font-sans); font-size: 0.78rem; color: var(--text-muted); text-align: center; }
+
+    /* ── 인쇄 ─────────────────────────────────────── */
+    @media print {
+      .topbar { display: none; }
+      body { font-size: 10.5pt; }
+      section { padding: 1.1rem 0; break-inside: avoid; }
+      .project, .card { break-inside: avoid; }
+      a { color: var(--text); text-decoration: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="topbar__name">박종현 <span>/ Backend</span></div>
+      <nav class="topbar__nav">
+        <a href="#about">소개</a>
+        <a href="#skills">역량</a>
+        <a href="#credentials">자격·어학</a>
+        <a href="#featured">대표 프로젝트</a>
+        <a href="#projects">프로젝트</a>
+        <a href="#experience">교육·활동</a>
+        <a href="#contact">연락</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero" id="about">
+      <div class="tricolor" aria-hidden="true"><span></span><span></span><span></span></div>
+      <p class="eyebrow">Portfolio</p>
+      <h1>박종현<span class="role">Backend Developer 지망 · 충남대학교 컴퓨터융합학부</span></h1>
+      <p class="hero__lead">
+        문제를 정의하고 동작하는 시스템으로 구현하는 과정을 반복하며 성장해 온 백엔드 개발자 지망생입니다.
+        전공 수업과 프로젝트에서 단순히 이론을 학습하는 데 그치지 않고, 실제로 동작하는 구조를 설계하고
+        구현하는 경험을 쌓아 왔으며, 서버 개발과 데이터베이스 설계, API 구현을 핵심 역량으로 삼고 있습니다.
+      </p>
+      <ul class="facts">
+        <li><span class="k">학력</span><span class="v">충남대학교 공과대학 컴퓨터융합학부 (2020.03 ~ 재학)</span></li>
+        <li><span class="k">관심 분야</span><span class="v">서버 개발 · 데이터베이스 설계 · API 구현</span></li>
+        <li><span class="k">실무 교육</span><span class="v">NHN 아카데미 백엔드 과정 (2025)</span></li>
+        <li><span class="k">이메일</span><span class="v"><a href="mailto:hyeoninii0314@gmail.com">hyeoninii0314@gmail.com</a></span></li>
+      </ul>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills">
+      <h2>역량</h2>
+      <div class="skillgroup">
+        <div class="skillgroup__label">Backend</div>
+        <div class="tags"><span>Java</span><span>Spring Boot</span><span>Spring Cloud</span><span>JPA</span><span>REST API</span></div>
+      </div>
+      <div class="skillgroup">
+        <div class="skillgroup__label">Data</div>
+        <div class="tags"><span>MySQL</span><span>Redis</span><span>Elasticsearch</span><span>SQL (SQLD)</span></div>
+      </div>
+      <div class="skillgroup">
+        <div class="skillgroup__label">Blockchain</div>
+        <div class="tags"><span>Solidity</span><span>Smart Contract</span><span>Sepolia Testnet</span></div>
+      </div>
+      <div class="skillgroup">
+        <div class="skillgroup__label">기타</div>
+        <div class="tags"><span>Vue.js</span><span>JavaScript</span><span>Git</span><span>GitHub Actions</span><span>SonarQube</span></div>
+      </div>
+      <p class="note">※ 개인 역량은 실제 프로젝트에서 사용한 기술을 중심으로 정리했습니다.</p>
+    </section>
+
+    <!-- CREDENTIALS -->
+    <section id="credentials">
+      <h2>자격 · 어학 · 코딩역량</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="card__name">정보처리기사</div>
+          <div class="card__meta">한국산업인력공단 · 2025.12.24 합격</div>
+        </div>
+        <div class="card">
+          <div class="card__name">SQLD (SQL 개발자)</div>
+          <div class="card__meta">한국데이터베이스진흥원 · 2024.06.21</div>
+        </div>
+        <div class="card">
+          <div class="card__name">TOPCIT</div>
+          <div class="card__big">430 <span style="font-size:0.9rem;color:var(--text-muted)">/ 1000</span></div>
+          <div class="card__meta">수준 3 · 2024.10.12 · 정보통신기획평가원</div>
+        </div>
+        <div class="card">
+          <div class="card__name">TOEIC Speaking</div>
+          <div class="card__big">140</div>
+          <div class="card__meta">2024.09.14</div>
+        </div>
+      </div>
+
+      <div class="topcit">
+        <div class="topcit__cap">TOPCIT 영역별 점수 (점수 / 만점)</div>
+        <div class="bar"><span class="bar__label">소프트웨어</span><span class="bar__track"><span class="bar__fill" style="width:48%"></span></span><span class="bar__val">125/260</span></div>
+        <div class="bar"><span class="bar__label">데이터</span><span class="bar__track"><span class="bar__fill" style="width:41%"></span></span><span class="bar__val">60/145</span></div>
+        <div class="bar"><span class="bar__label">시스템 아키텍처</span><span class="bar__track"><span class="bar__fill" style="width:33%"></span></span><span class="bar__val">25/75</span></div>
+        <div class="bar"><span class="bar__label">정보보안</span><span class="bar__track"><span class="bar__fill" style="width:53%"></span></span><span class="bar__val">45/85</span></div>
+        <div class="bar"><span class="bar__label">IT비즈니스·윤리</span><span class="bar__track"><span class="bar__fill" style="width:53%"></span></span><span class="bar__val">50/95</span></div>
+        <div class="bar"><span class="bar__label">TC·PM</span><span class="bar__track"><span class="bar__fill" style="width:25%"></span></span><span class="bar__val">20/80</span></div>
+        <div class="bar"><span class="bar__label">통합역량</span><span class="bar__track"><span class="bar__fill" style="width:40%"></span></span><span class="bar__val">105/260</span></div>
+      </div>
+    </section>
+
+    <!-- FEATURED PROJECT -->
+    <section id="featured">
+      <h2>대표 프로젝트</h2>
+      <article class="project project--featured">
+        <div class="project__head">
+          <h3>기업환경 맞춤형 정책 기반 다중서명 지갑</h3>
+          <span class="project__meta">팀 프로젝트 (팀 십일조) · 2025.03 – 2025.06 · 종합설계1</span>
+        </div>
+        <p class="project__summary">
+          기업이 전자지갑을 사용할 때 발생하는 보안 문제를 해결하기 위해, 다중 서명(Multi-signature) 방식을
+          활용한 전자지갑 시스템을 설계했습니다. 거래 금액·직급·상황에 따라 승인 조건이 달라지는
+          <strong>정책(Policy) 기반 승인 체계</strong>를 스마트 컨트랙트로 구현하고, Sepolia 테스트넷에 배포했습니다.
+        </p>
+
+        <h4>배경</h4>
+        <ul>
+          <li>기업의 블록체인 기반 자산 관리 수요가 늘고 있으나, 단일 서명 지갑은 키 분실·탈취나 내부자의 부정 사용 위험에 취약합니다.</li>
+          <li>단일 서명 방식은 소유자가 바뀔 때마다 키를 재분배해야 하며, 기업의 계층적 권한 체계와 잦은 인사 변경을 반영하기 어렵습니다.</li>
+        </ul>
+
+        <h4>목표</h4>
+        <ul>
+          <li>거래 금액·직급·상황에 따라 승인 조건이 달라지는 정책 기반 다중서명 구조 구현</li>
+          <li>직급별 승인 권한 관리 및 인사 변경 시 승인 구조 즉시 반영</li>
+          <li>기업 결재 절차의 자동화·투명화로 보안성과 효율성을 동시에 강화</li>
+        </ul>
+
+        <h4>시스템 아키텍처 — Solidity 스마트 컨트랙트 4종</h4>
+        <ul class="contracts">
+          <li><code>Multisig.sol</code> — 다중서명 핵심 모듈. 거래 제안·서명 수집·임계값 검증을 담당하고, 임계값 도달 시 PolicyManager에 검증을 요청해 실행 여부를 결정합니다.</li>
+          <li><code>PolicyManager.sol</code> — 정책 체인. <code>Policy.sol</code>과 <code>Role.sol</code>을 순차 호출해 거래 조건을 검증하고, 모든 검증이 true일 때만 승인, 하나라도 false면 자동 차단합니다.</li>
+          <li><code>Policy.sol</code> — 거래 금액 조건을 담당합니다.</li>
+          <li><code>Role.sol</code> — 직급별 승인자 권한을 검증합니다.</li>
+        </ul>
+
+        <h4>구현 및 검증 결과</h4>
+        <ul>
+          <li>4개 컨트랙트를 Solidity로 개발하고 Sepolia 테스트넷 정상 배포를 확인</li>
+          <li>컨트랙트 간 연동 테스트로 정책 검증–서명 확인 절차가 자동 동작함을 확인</li>
+          <li>금액·직급 조건을 다르게 설정해 승인 여부가 정확히 판별되는지 검증</li>
+          <li>역할·정책 정보 변경이 시스템 재배포 없이 실시간 반영되는 구조 구현</li>
+        </ul>
+
+        <h4>기대 효과</h4>
+        <ul>
+          <li>거래 금액·직급에 따른 승인 조건 자동 판단으로 단독 결재·내부자 위험 방지</li>
+          <li>정책을 사전 등록해 승인 요청·검증을 자동 수행 → 결재 속도·정확도 향상</li>
+          <li>인사 이동·직급 변경 시 승인 구조 즉시 갱신</li>
+        </ul>
+
+        <div class="stack">
+          <span>Solidity</span><span>Smart Contract</span><span>Multi-signature</span><span>Sepolia Testnet</span><span>Blockchain</span>
+        </div>
+        <span class="award">2025 CNU 창의작품경진대회 출품</span>
+      </article>
+    </section>
+
+    <!-- OTHER PROJECTS -->
+    <section id="projects">
+      <h2>프로젝트</h2>
+
+      <article class="project">
+        <div class="project__head">
+          <h3>Byeol23.shop</h3>
+          <span class="project__meta">팀 프로젝트 · 약 8주 (2025.10 – 2025.12)</span>
+        </div>
+        <p class="project__summary">Spring 기반 도서 쇼핑몰 프로젝트. MSA 구조로 설계했으며 현재 리팩토링을 진행 중입니다.</p>
+        <ul>
+          <li>Spring Cloud Gateway / Eureka 기반 아키텍처</li>
+          <li>Elasticsearch, Redis, MySQL 활용</li>
+          <li>GitHub Actions + SonarQube 기반 CI/CD 및 코드 품질 관리</li>
+        </ul>
+        <div class="stack"><span>Java</span><span>Spring Boot</span><span>Spring Cloud</span><span>JPA</span><span>MySQL</span><span>Redis</span><span>Elasticsearch</span></div>
+        <a class="project__link" href="https://github.com/nhnacademy-be11-Byeol23" target="_blank" rel="noopener noreferrer">GitHub 저장소 보기 →</a>
+      </article>
+
+      <article class="project">
+        <div class="project__head">
+          <h3>kb-geoji-escape</h3>
+          <span class="project__meta">팀 프로젝트 · 5일 스프린트</span>
+        </div>
+        <p class="project__summary">Vue.js 기반 가계부·지출 관리 서비스를 기획하고 구현했습니다.</p>
+        <ul>
+          <li>날짜별 수입·지출 기록 및 상세 입력</li>
+          <li>주간 / 월간 / 연간 요약 리포트</li>
+          <li>지출 목표(챌린지) 관리</li>
+        </ul>
+        <div class="stack"><span>Vue</span><span>JavaScript</span><span>HTML</span><span>CSS</span></div>
+        <a class="project__link" href="https://github.com/hyeoniill/kb-geoji-escape" target="_blank" rel="noopener noreferrer">GitHub 저장소 보기 →</a>
+      </article>
+
+      <h4 style="font-family:var(--font-sans);font-size:0.74rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin:2rem 0 0;">프로젝트 교과목</h4>
+      <ul class="coursework">
+        <li><span class="c-name">블록체인 기반 다중 서명을 활용한 전자지갑 서비스</span><span class="c-meta">종합설계1 · 지도교수 김영국 · 2025</span></li>
+        <li><span class="c-name">블록체인 서버형 전자지갑 관리 프로젝트</span><span class="c-meta">정보보호특성화대학</span></li>
+        <li><span class="c-name">배우는 젊음</span><span class="c-meta">기초프로젝트랩 · 지도교수 김도헌</span></li>
+      </ul>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience">
+      <h2>교육 · 활동</h2>
+      <ul class="timeline">
+        <li>
+          <div class="t-head"><span class="t-title">NHN 아카데미 — 백엔드 과정</span><span class="t-date">2025.07 – 2025.12</span></div>
+          <p class="t-desc">서버 개발, 데이터베이스, API 설계 등 백엔드 개발 전반에 대한 실무 중심 교육을 수강하며 실제 서비스 환경을 고려한 시스템 설계 역량을 강화했습니다.</p>
+        </li>
+        <li>
+          <div class="t-head"><span class="t-title">K-Data Science 해커톤 — 장려상</span><span class="t-date">2025.09.05 · 과학기술정보통신부</span></div>
+          <p class="t-desc">제한된 시간 안에서 데이터 분석 기반 문제 해결 프로젝트를 수행했으며, 팀원들과 협업해 아이디어를 구체화하고 결과물을 도출해 장려상을 수상했습니다.</p>
+        </li>
+      </ul>
+
+      <h4 style="font-family:var(--font-sans);font-size:0.74rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--text-muted);margin:2rem 0 0;">학업 이수</h4>
+      <ul class="study">
+        <li>총 취득학점 130학점 — 졸업 요건(기초교양 포함 36학점 이상, 전공 90학점 이상) 충족</li>
+        <li>교양 36학점 · 전공 90학점(기초 · 핵심 · 심화) 이수</li>
+        <li>미래설계상담 5회, 소프트웨어 3과목, 졸업시험 합격</li>
+      </ul>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact">
+      <h2>연락처</h2>
+      <p><span class="label">Email</span><a href="mailto:hyeoninii0314@gmail.com">hyeoninii0314@gmail.com</a></p>
+      <p><span class="label">GitHub</span><a href="https://github.com/hyeoniill" target="_blank" rel="noopener noreferrer">github.com/hyeoniill</a></p>
+    </section>
+  </main>
+
+  <footer>© 2026 박종현 · 충남대학교 컴퓨터융합학부</footer>
+</body>
 </html>
